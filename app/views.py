@@ -11,8 +11,8 @@ def index():
 def employee_add():
     if request.method == 'POST':
         post = models.Employee(request.form['name_form'], 
-            request.form['skill_level_form'],
-            request.form['email_address_form'], request.form['trade_form'])
+            request.form['skill_level_form'], request.form['email_address_form'], 
+            request.form['trade_form'])
         db.session.add(post)
         db.session.commit()
         # db.session.refresh()
@@ -50,10 +50,16 @@ def delete(id):
 
 @app.route('/computers/add' , methods=['POST', 'GET'])
 def computer_add():
-    None
-    # if request.method == 'POST':
-    #     post = models.Employee(request.form['name_form'], 
-    #         request.form['skill_level_form'],
-    #         request.form['email_address_form'], request.form['trade_form'])
-    #     db.session.add(post)
-    #     db.session.commit()
+    # None
+    if request.method == 'POST':
+        post = models.Computers(request.form['computer_name'], request.form['brand'],
+            request.form['model'], request.form['serial'],
+            request.form['computer_type'], request.form['operating_system'],
+            request.form['notes'], request.form['aquired_date'],
+            request.form['purchase_price'], request.form['vendor_id'], 
+            request.form['warranty_start'], request.form['warranty_length'], 
+            request.form['warranty_end'])
+
+        db.session.add(post)
+        db.session.commit()
+    return render_template('computers/add.html')

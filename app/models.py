@@ -1,5 +1,5 @@
 from app import db
-from sqlalchemy.dialects.mysql import ENUM, BOOLEAN
+from sqlalchemy.dialects.mysql import BOOLEAN
 import datetime
 
 class Post(db.Model):
@@ -16,7 +16,7 @@ class Post(db.Model):
 class Employee(db.Model):
     __tablename__ = 'employee'
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer,unique=True, primary_key=True)
     name = db.Column(db.String(255), unique=True)
     create_ts = db.Column(db.DateTime)
     skill_level = db.Column(db.Integer)
@@ -53,11 +53,11 @@ class Fob(db.Model):
 
 class Computers(db.Model):
     __tablename__ = 'computers'
-    computer_id = db.Column(db.String(64), unique=True, primary_key=True)
-    computer_name = db.Column(db.String(64), unique=True)
-    brand = db.Column('brand', ENUM('Acer','Custom','Dell','HP','Lenovo'))
+    computer_id = db.Column(db.Integer, unique=True, primary_key=True)
+    computer_name = db.Column(db.String(64))
+    brand = db.Column(db.String(64))
     model = db.Column(db.String(64))
-    serial = db.Column(db.String(128), unique=True)
+    serial = db.Column(db.String(128))
     computer_type = db.Column(db.String(64))
     operating_system = db.Column(db.String(64))
     notes = db.Column(db.String(512))
@@ -66,27 +66,45 @@ class Computers(db.Model):
     disposed_date = db.Column(db.DateTime)
     aquired_date = db.Column(db.DateTime)
     purchase_price = db.Column(db.Integer)
-    vendor_id = db.Column('vendor_id', ENUM('NewEggBusiness','Connection','Insight','Dell','HP','CDW'))
+    vendor_id = db.Column(db.String(64))
     warranty_start = db.Column(db.DateTime)
     warranty_length = db.Column(db.Integer)
     warranty_end = db.Column(db.DateTime)
     employee_id = db.Column(db.Integer)
     history = db.Column(db.String(255))
+
+    def __init__(self, computer_name, brand, model, serial, computer_type, 
+                operating_system, notes, aquired_date, purchase_price, 
+                vendor_id, warranty_start, warranty_length, warranty_end):
+
+        self.computer_name = computer_name
+        self.brand = brand
+        self.model = model
+        self.serial = serial
+        self.computer_type = computer_type
+        self.operating_system = operating_system
+        self.notes = notes
+        self.aquired_date = aquired_date
+        self.purchase_price = purchase_price
+        self.vendor_id = vendor_id
+        self.warranty_start = warranty_start
+        self.warranty_length = warranty_length
+        self.warranty_end = warranty_end
     
 class Printers(db.Model):
     __tablename__ = 'printers'
     printer_id = db.Column(db.String(64), unique=True, primary_key=True)
-    brand = db.Column('brand', ENUM('Brother','Xerox','HP','Cannon'))
+    brand = db.Column(db.String(64))
     model = db.Column(db.String(64))
-    printer_type = db.Column('printer_type', ENUM('Ink','Toner'))
+    printer_type = db.Column(db.String(64))
     aquired_date = db.Column(db.DateTime)
-    vendor_id = db.Column('vendor_id', ENUM('NewEggBusiness','Connection','Insight','Dell','HP','CDW'))
+    vendor_id = db.Column(db.String(64))
 
 class Phone_Account(db.Model):
     __tablename__ = 'phone_account'
     phone_number = db.Column(db.String(16), unique=True, primary_key=True)
     phone_model = db.Column(db.String(16))
-    phone_os = db.Column('phone_os', ENUM('iOS', 'Android'))
+    phone_os = db.Column(db.String(64))
     notes = db.Column(db.String(255))
 
 class Vendors(db.Model):
@@ -100,4 +118,4 @@ class Printer_Model(db.Model):
     __tablename__ = 'printer_model'
     printer_model = db.Column(db.String(64), unique=True, primary_key=True)
     brand = db.Column(db.String(64))
-    printer_type = db.Column('printer_type', ENUM('Ink','Toner'))
+    printer_type = db.Column(db.String(64))

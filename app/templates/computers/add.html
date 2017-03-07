@@ -3,44 +3,91 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Edit</title>
+    <title>Add Computer</title>
     <link rel="stylesheet" href="/static/css/foundation.css" />
     <script src="/static/js/vendor/modernizr.js"></script>
   </head>
   <body>
-    <form action="" method="post">
+    <form action="/computers/add" method="post">
         <div class="row">
             <div class="large-12 columns">
-                <label>Name:</label>
-                <textarea type="text" name="name_form"></textarea>
+                <label>Computer Name:</label>
+                <textarea type="text" name="computer_name"></textarea>
             </div>
         </div>
          <div class="row">
             <div class="large-12 columns">
-                <label>Skill Level:</label>
-        <input type="number" name="skill_level_form"/> 
+                <label>Brand:</label>
+        <input type="text" name="brand"/> 
             </div>
         </div>
         <div class="row">
             <div class="large-12 columns">
-                <label>Email:</label>
-        <input type="text" name="email_address_form"/>
+                <label>Model:</label>
+        <input type="text" name="model"/>
             </div>
         </div>
         <div class="row">
             <div class="large-12 columns">
-                <label>Trade:</label>
-        <select type="text" name="trade_form">
-        	<option value="Accounting">Accounting</option>
-        	<option value="CAD">CAD</option>
-        	<option value="Estimating">Estimating</option>
-        	<option value="PM">PM</option>
-        	<option value="Piping Plumbing">Piping Plumbing</option>
-        	<option value="Sheet Metal">Sheet Metal</option>
-            <option value="Safety">Safety</option>
-            <option value="Shop">Shop</option>
-        </select>
-
+                <label>Serial Number or Service Tag:</label>
+        <input type="text" name="serial"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="large-12 columns">
+                <label>Desktop or Laptop:</label>
+        <input type="text" name="computer_type"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="large-12 columns">
+                <label>OS:</label>
+        <input type="text" name="operating_system"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="large-12 columns">
+                <label>Notes:</label>
+        <input type="text" name="notes"/>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="large-12 columns">
+                <label>Purchase Date:</label>
+        <input type="text" name="aquired_date"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="large-12 columns">
+                <label>Purchase Price:</label>
+        <input type="text" name="purchase_price"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="large-12 columns">
+                <label>Vendor:</label>
+        <input type="text" name="vendor_id"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="large-12 columns">
+                <label>Warranty Start:</label>
+        <input type="text" name="warranty_start"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="large-12 columns">
+                <label>Warranty Length:</label>
+        <input type="text" name="warranty_length"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="large-12 columns">
+                <label>Warranty End:</label>
+        <input type="text" name="warranty_end"/>
+            </div>
+        </div>
         <button class="button postfix"  type="submit">Add</button>
     </form>
     <script src="/static/js/vendor/jquery.js"></script>
