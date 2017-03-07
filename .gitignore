@@ -1,0 +1,8 @@
+# virtualenv
+.venv
+venv/
+
+# have DB passwords
+config.py
+create_test_db.py
+notes
