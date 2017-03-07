@@ -4,5 +4,6 @@ venv/
 
 # have DB passwords
 config.py
+config.pyc
 create_test_db.py
 notes
