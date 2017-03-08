@@ -23,6 +23,7 @@ def employee_add():
 @app.route('/employee/edit/<int:id>' , methods=['POST', 'GET'])
 def edit(id):
     #Getting user by primary key:
+    # Validate url to ensure id exists
     post = models.Employee.query.get(id)
     if not post:
         flash('Invalid post id: {0}'.format(id))
@@ -50,7 +51,6 @@ def delete(id):
 
 @app.route('/computers/add' , methods=['POST', 'GET'])
 def computer_add():
-    # None
     if request.method == 'POST':
         post = models.Computers(request.form['computer_name'], request.form['brand'],
             request.form['model'], request.form['serial'],
@@ -63,3 +63,36 @@ def computer_add():
         db.session.add(post)
         db.session.commit()
     return render_template('computers/add.html')
+
+app.route('/computers/edit/<int:computer_id>' , methods=['POST', 'GET'])
+def computer_edit(computer_id):
+
+    # Validate url to ensure id exists
+    post = models.Computers.query.get(computer_id)
+    if not post:
+        flash('Invalid post id: {0}'.format(computer_id))
+        return redirect(url_for('index'))
+
+    # raise exception
+    if request.method == 'POST':
+        post.computer_name = request.form.get('computer_name')
+        post.brand = request.form['brand']
+        post.model = request.form['model']
+        post.serial = request.form['serial']
+        post.computer_type = request.form['computer_type']
+        post.operating_system = request.form['operating_system']
+        post.notes = request.form['notes']
+        post.aquired_date = request.form['aquired_date']
+        post.purchase_price = request.form['purchase_price']
+        post.vendor_id = request.form['vendor_id']
+        post.warranty_start = request.form['warranty_start']
+        post.warranty_length = request.form['warranty_length']
+        post.warranty_end = request.form['warranty_end']
+        post.trade = request.form['trade_form']
+        post.trade = request.form['trade_form']
+
+
+        db.session.commit()
+        return redirect(url_for('index'))
+    else:
+        return render_template('computers/edit.html', post=post)

@@ -1,18 +1,14 @@
-<!doctype html>
-<html class="no-js" lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Equipment DB</title>
-    <link rel="stylesheet" href="static/css/foundation.css" />
-    <script src="/static/js/vendor/modernizr.js"></script>
-  </head>
-  <body>
+{% extends "layout.html" %}
+{% block title %}Home{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+    
       <div class="row">
-      <h3>Xcel IT Device DB</h3>
       
       <!-- Main Page Content and Sidebar -->
-     {% for post in post %}
+        {% for post in post %}
       <div class="row">
       
         <!-- Main Blog Content -->
@@ -35,13 +31,6 @@
         </div>
       </div>
        {% endfor %}
-      
-        <!-- End Main Content --> 
-      
-  <script src="static/js/vendor/jquery.js"></script>
-    <script src="static/js/foundation.min.js"></script>
-    <script>
-      $(document).foundation();
-    </script>  
-     </body>
-    </html> 
+
+    
+{% endblock %}

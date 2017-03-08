@@ -1,99 +1,100 @@
-<!doctype html>
-<html class="no-js" lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Add Computer</title>
-    <link rel="stylesheet" href="/static/css/foundation.css" />
-    <script src="/static/js/vendor/modernizr.js"></script>
-  </head>
-  <body>
-    <form action="/computers/add" method="post">
-        <div class="row">
-            <div class="large-12 columns">
-                <label>Computer Name:</label>
-                <textarea type="text" name="computer_name"></textarea>
-            </div>
-        </div>
-         <div class="row">
-            <div class="large-12 columns">
-                <label>Brand:</label>
-        <input type="text" name="brand"/> 
-            </div>
-        </div>
-        <div class="row">
-            <div class="large-12 columns">
-                <label>Model:</label>
-        <input type="text" name="model"/>
-            </div>
-        </div>
-        <div class="row">
-            <div class="large-12 columns">
-                <label>Serial Number or Service Tag:</label>
-        <input type="text" name="serial"/>
-            </div>
-        </div>
-        <div class="row">
-            <div class="large-12 columns">
-                <label>Desktop or Laptop:</label>
-        <input type="text" name="computer_type"/>
-            </div>
-        </div>
-        <div class="row">
-            <div class="large-12 columns">
-                <label>OS:</label>
-        <input type="text" name="operating_system"/>
-            </div>
-        </div>
-        <div class="row">
-            <div class="large-12 columns">
-                <label>Notes:</label>
-        <input type="text" name="notes"/>
-            </div>
-        </div>
+{% extends "layout.html" %}
+{% block title %}Add Computer{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+
+            <form action="/computers/add" method="post">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div>
+                            <label>Computer Name:</label>
+                        </div>
+                        <input type="text" name="computer_name"/></p>
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <label>Brand:</label>
+                        </div>
+                        <input type="text" name="brand"/></p>
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <label>Model:</label>
+                        </div>
+                        <input type="text" name="model"/></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div>
+                            <label>S/N or Service Tag:</label>
+                        </div>
+                        <input type="text" name="serial"/></p>
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <label>Desktop or Laptop:</label>
+                        </div>
+                        <input type="text" name="computer_type"/></p>
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <label>OS:</label>
+                        </div>
+                        <input type="text" name="operating_system"/></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div>
+                            <label>Notes:</label>
+                        </div>
+                        <input type="text" name="notes"/></p>
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <label>Purchase Date:</label>
+                        </div>
+                        <input type="text" name="aquired_date"/></p>
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <label>Purchase Price:</label>
+                        </div>
+                        <input type="text" name="purchase_price"/></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div>
+                            <label>Vendor:</label>
+                        </div>
+                        <input type="text" name="vendor_id"/></p>
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <label>Warranty Start:</label>
+                        </div>
+                        <input type="text" name="warranty_start"/></p>
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <label>Warranty Length:</label>
+                        </div>
+                        <input type="text" name="warranty_length"/></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div>
+                            <label>Warranty End:</label>
+                        </div>
+                        <input type="text" name="warranty_end"/></p>
+                    </div>
+                </div>
+                <button class="button postfix"  type="submit">Add</button>
+            </form>
         
-        <div class="row">
-            <div class="large-12 columns">
-                <label>Purchase Date:</label>
-        <input type="text" name="aquired_date"/>
-            </div>
-        </div>
-        <div class="row">
-            <div class="large-12 columns">
-                <label>Purchase Price:</label>
-        <input type="text" name="purchase_price"/>
-            </div>
-        </div>
-        <div class="row">
-            <div class="large-12 columns">
-                <label>Vendor:</label>
-        <input type="text" name="vendor_id"/>
-            </div>
-        </div>
-        <div class="row">
-            <div class="large-12 columns">
-                <label>Warranty Start:</label>
-        <input type="text" name="warranty_start"/>
-            </div>
-        </div>
-        <div class="row">
-            <div class="large-12 columns">
-                <label>Warranty Length:</label>
-        <input type="text" name="warranty_length"/>
-            </div>
-        </div>
-        <div class="row">
-            <div class="large-12 columns">
-                <label>Warranty End:</label>
-        <input type="text" name="warranty_end"/>
-            </div>
-        </div>
-        <button class="button postfix"  type="submit">Add</button>
-    </form>
-    <script src="/static/js/vendor/jquery.js"></script>
-    <script src="/static/js/foundation.min.js"></script>
-    <script>
-      $(document).foundation();
-    </script>
-  </body>
-</html>
+{% endblock %}
