@@ -21,7 +21,7 @@ def employee_add():
     return render_template('employee/add.html')
 
 @app.route('/employee/edit/<int:id>' , methods=['POST', 'GET'])
-def edit(id):
+def edit_employee(id):
     #Getting user by primary key:
     # Validate url to ensure id exists
     post = models.Employee.query.get(id)
@@ -41,7 +41,7 @@ def edit(id):
         return render_template('employee/edit.html', post=post)
 
 @app.route('/employee/delete/<id>' , methods=['POST', 'GET'])
-def delete(id):
+def delete_employee(id):
      post = models.Employee.query.get(id)
      db.session.delete(post)
      db.session.commit()

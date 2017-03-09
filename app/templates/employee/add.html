@@ -1,40 +1,41 @@
 {% extends "layout.html" %}
-{% block title %}Home{% endblock %}
+{% block title %}Add Employee{% endblock %}
 {% block head %}
 {{ super() }}
 {% endblock %}
 {% block content %}
     <form action="" method="post">
         <div class="row">
-            <div class="large-12 columns">
+            <div class="col-md-4">
                 <label>Name:</label>
                 <textarea type="text" name="name_form"></textarea>
             </div>
         </div>
          <div class="row">
-            <div class="large-12 columns">
+            <div class="col-md-4">
                 <label>Skill Level:</label>
         <input type="number" name="skill_level_form"/> 
             </div>
         </div>
         <div class="row">
-            <div class="large-12 columns">
+            <div class="col-md-4">
                 <label>Email:</label>
         <input type="text" name="email_address_form"/>
             </div>
         </div>
         <div class="row">
-            <div class="large-12 columns">
+            <div class="col-md-4">
                 <label>Trade:</label>
         <select type="text" name="trade_form">
         	<option value="Accounting">Accounting</option>
         	<option value="CAD">CAD</option>
         	<option value="Estimating">Estimating</option>
-        	<option value="PM">PM</option>
         	<option value="Piping Plumbing">Piping Plumbing</option>
-        	<option value="Sheet Metal">Sheet Metal</option>
+            <option value="PM">PM</option>
             <option value="Safety">Safety</option>
+        	<option value="Sheet Metal">Sheet Metal</option>
             <option value="Shop">Shop</option>
+            <option value="Service">Service</option>
         </select>
 
         <button class="button postfix"  type="submit">Add</button>
