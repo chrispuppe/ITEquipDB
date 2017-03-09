@@ -57,6 +57,7 @@ def all_computers():
 
 @app.route('/computers/add' , methods=['POST', 'GET'])
 def computer_add():
+    #raise exception
     if request.method == 'POST':
         post = models.Computers(request.form['computer_name'], request.form['brand'],
             request.form['model'], request.form['serial'],

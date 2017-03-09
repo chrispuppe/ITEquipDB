@@ -47,8 +47,8 @@
                     <label>Desktop or Laptop:</label>
                 </div>
                 <select type="text" name="computer_type"></p>
-                    <option value="Desktop">2Go PC</option>
-                    <option value="Laptop">Acer</option>
+                    <option value="Desktop">Desktop</option>
+                    <option value="Laptop">Laptop</option>
                 </select>
             </div>
             <div class="col-md-4">
@@ -69,7 +69,12 @@
                 <div>
                     <label>Purchase Date:</label>
                 </div>
-                <input type="text" name="aquired_date"/></p>
+                <div class="input-group date" data-provide="datepicker">
+                    <input type="text" name="aquired_date" class="form-control">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-th"></span>
+                    </div>
+                </div>
             </div>
             <div class="col-md-4">
                 <div>
@@ -89,7 +94,13 @@
                 <div>
                     <label>Warranty Start:</label>
                 </div>
-                <input type="text" name="warranty_start"/></p>
+                
+                <div class="input-group date" data-provide="datepicker">
+                    <input type="text" name="warranty_start" class="form-control">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-th"></span>
+                    </div>
+                </div>
             </div>
             <div class="col-md-4">
                 <div>
@@ -103,10 +114,26 @@
                 <div>
                     <label>Warranty End:</label>
                 </div>
-                <input type="text" name="warranty_end"/></p>
+                
+                <div class="input-group date" data-provide="datepicker">
+                    <input type="text" name="warranty_start" class="form-control">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-th"></span>
+                    </div>
             </div>
         </div>
-        <button class="button postfix"  type="submit">Add</button>
+        </p><button class="button postfix"  type="submit">Add</button>
     </form>
-        
+{% endblock %}
+{% block footer %}
+<script src="/static/js/jquery.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/bootstrap-datepicker.js"></script>
+<script>
+    $('.input-group.date').datepicker({
+        format: "mm/dd/yyyy",
+        autoclose: true,
+        todayHighlight: true
+    });
+</script>
 {% endblock %}
