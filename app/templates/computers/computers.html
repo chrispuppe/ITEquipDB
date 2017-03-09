@@ -1,16 +1,18 @@
 {% extends "layout.html" %}
-{% block title %}Home{% endblock %}
+{% block title %}All Computer{% endblock %}
 {% block head %}
 {{ super() }}
 {% endblock %}
 {% block content %}
 
+    <!-- Main Page Content and Sidebar -->
     {% for post in post %}
 
+    <!-- Main Blog Content -->
     <div role="content">
         <div class="row">
           <div>
-            <a href="{{ url_for('edit_employee', id=post.id) }}">{{ post.name }}</a>
+            <a href="{{ url_for('computer_edit', computer_id=post.computer_id) }}">{{ post.computer_name }}</a>
           </div>
           <hr />
         </div>

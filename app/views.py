@@ -42,12 +42,18 @@ def edit_employee(id):
 
 @app.route('/employee/delete/<id>' , methods=['POST', 'GET'])
 def delete_employee(id):
-     post = models.Employee.query.get(id)
-     db.session.delete(post)
-     db.session.commit()
-     flash ('deleted')
+    post = models.Employee.query.get(id)
+    db.session.delete(post)
+    db.session.commit()
+    flash ('deleted')
 	   
-     return redirect(url_for('index'))
+    return redirect(url_for('index'))
+
+@app.route('/computers' , methods=['POST', 'GET'])
+def all_computers():
+    post = models.Computers.query.all()
+    return render_template('/computers/computers.html', post=post)
+
 
 @app.route('/computers/add' , methods=['POST', 'GET'])
 def computer_add():
@@ -64,7 +70,7 @@ def computer_add():
         db.session.commit()
     return render_template('computers/add.html')
 
-app.route('/computers/edit/<int:computer_id>' , methods=['POST', 'GET'])
+@app.route('/computers/edit/<int:computer_id>' , methods=['POST', 'GET'])
 def computer_edit(computer_id):
 
     # Validate url to ensure id exists
@@ -96,3 +102,12 @@ def computer_edit(computer_id):
         return redirect(url_for('index'))
     else:
         return render_template('computers/edit.html', post=post)
+
+@app.route('/computer/delete/<computer_id>' , methods=['POST', 'GET'])
+def delete_computer(computer_id):
+    post = models.Computers.query.get(computer_id)
+    db.session.delete(post)
+    db.session.commit()
+    flash ('deleted')
+
+    return redirect(url_for('all_computers'))
