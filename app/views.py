@@ -82,6 +82,7 @@ def computer_edit(computer_id):
 
     # raise exception
     if request.method == 'POST':
+        # raise exception
         post.computer_name = request.form.get('computer_name')
         post.brand = request.form['brand']
         post.model = request.form['model']
@@ -95,12 +96,9 @@ def computer_edit(computer_id):
         post.warranty_start = request.form['warranty_start']
         post.warranty_length = request.form['warranty_length']
         post.warranty_end = request.form['warranty_end']
-        post.trade = request.form['trade_form']
-        post.trade = request.form['trade_form']
-
-
+        
         db.session.commit()
-        return redirect(url_for('index'))
+        return redirect(url_for('all_computers'))
     else:
         return render_template('computers/edit.html', post=post)
 

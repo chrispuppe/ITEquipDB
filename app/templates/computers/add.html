@@ -69,10 +69,10 @@
                 <div>
                     <label>Purchase Date:</label>
                 </div>
-                <div class="input-group date" data-provide="datepicker">
+                <div style="width:200px;" role="button" class="input-group date" data-provide="datepicker">
                     <input type="text" name="aquired_date" class="form-control">
                     <div class="input-group-addon">
-                        <span class="glyphicon glyphicon-th"></span>
+                        <span  class="glyphicon glyphicon-th"></span>
                     </div>
                 </div>
             </div>
@@ -95,10 +95,10 @@
                     <label>Warranty Start:</label>
                 </div>
                 
-                <div class="input-group date" data-provide="datepicker">
+                <div style="width:200px;" role="button" class="input-group date" data-provide="datepicker">
                     <input type="text" name="warranty_start" class="form-control">
                     <div class="input-group-addon">
-                        <span class="glyphicon glyphicon-th"></span>
+                        <span role="button" class="glyphicon glyphicon-th"></span>
                     </div>
                 </div>
             </div>
@@ -115,8 +115,8 @@
                     <label>Warranty End:</label>
                 </div>
                 
-                <div class="input-group date" data-provide="datepicker">
-                    <input type="text" name="warranty_start" class="form-control">
+                <div style="width:200px;" role="button" class="input-group date" data-provide="datepicker">
+                    <input type="text" name="warranty_end" class="form-control">
                     <div class="input-group-addon">
                         <span class="glyphicon glyphicon-th"></span>
                     </div>
@@ -126,7 +126,7 @@
     </form>
 {% endblock %}
 {% block footer %}
-<script src="/static/js/jquery.js"></script>
+<script src="/static/js/jquery-3.1.1.js"></script>
 <script src="/static/js/bootstrap.min.js"></script>
 <script src="/static/js/bootstrap-datepicker.js"></script>
 <script>
