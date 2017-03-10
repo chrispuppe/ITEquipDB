@@ -103,7 +103,7 @@
                 </div>
                 
                 <div style="width:200px;" role="button" class="input-group date" data-provide="datepicker">
-                    <input type="text" name="warranty_start" class="form-control" value="{{ post.warranty_start }}">
+                    <input type="text" name="warranty_start" class="form-control" value="{{ date_to_string(post.warranty_start) }}">
                     <div class="input-group-addon">
                         <span role="button" class="glyphicon glyphicon-th"></span>
                     </div>

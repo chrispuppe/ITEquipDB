@@ -1,7 +1,13 @@
 from flask import render_template, request, flash, redirect, url_for
 from app import app, db
 from app import models
- 
+from datetime import datetime
+
+def string_to_date(d_string):
+    new_date = datetime.strptime(d_string, '%m/%d/%Y')
+    return new_date
+
+
 @app.route('/' )
 def index():
   post = models.Employee.query.all()
@@ -90,12 +96,13 @@ def computer_edit(computer_id):
         post.computer_type = request.form['computer_type']
         post.operating_system = request.form['operating_system']
         post.notes = request.form['notes']
-        post.aquired_date = request.form['aquired_date']
+        post.aquired_date = string_to_date(request.form['aquired_date'])
         post.purchase_price = request.form['purchase_price']
         post.vendor_id = request.form['vendor_id']
-        post.warranty_start = request.form['warranty_start']
+        post.warranty_start = string_to_date(request.form['warranty_start'])
         post.warranty_length = request.form['warranty_length']
-        post.warranty_end = request.form['warranty_end']
+        post.warranty_end = string_to_date(request.form['warranty_end'])
+
         
         db.session.commit()
         return redirect(url_for('all_computers'))

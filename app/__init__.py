@@ -8,6 +8,9 @@ app.secret_key = 's4asdgfkjagh2345nnlqnexiIS9732KksdnsdklkLKJjlksdfJLDF02418'
 #Create an instance of SQLAclhemy
 db = SQLAlchemy(app)
 from app import views, models
-# (venv)[cpuppe@localhost]$ vim flask-blog/config.py
-# #Add your connection string
-# SQLALCHEMY_DATABASE_URI = 'mysql://root:ThisTime43@localhost/blog'
+
+def date_to_string(s_date):
+    new_date = s_date.strftime("%m/%d/%Y")
+    return new_date
+
+app.jinja_env.globals.update(date_to_string=date_to_string)
