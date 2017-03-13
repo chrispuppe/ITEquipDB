@@ -1,7 +1,7 @@
 from flask import render_template, request, flash, redirect, url_for
 from app import app, db
 from app import models
-from datetime import datetime
+from datetime import datetime, date
 
 def string_to_date(d_string):
     new_date = datetime.strptime(d_string, '%m/%d/%Y')
