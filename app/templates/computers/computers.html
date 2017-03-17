@@ -12,7 +12,8 @@
     <div role="content">
         <div class="row">
           <div>
-            <a href="{{ url_for('computer_edit', computer_id=post.computer_id) }}">{{ post.computer_name }}</a>
+            <a href="{{ url_for('computer_edit', id=post.id) }}">{{ post.computer_name }}</a>
+            <a href="{{ url_for('delete_computer', id=post.id) }}">Delete</a>
           </div>
           <hr />
         </div>
