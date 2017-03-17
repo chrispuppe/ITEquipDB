@@ -4,21 +4,41 @@
 {{ super() }}
 {% endblock %}
 {% block content %}
-
-    <!-- Main Page Content and Sidebar -->
-    {% for post in post %}
-
-    <!-- Main Blog Content -->
     <div role="content">
         <div class="row">
-          <div>
-            <a href="{{ url_for('computer_edit', id=post.id) }}">{{ post.computer_name }}</a>
-            <a href="{{ url_for('delete_computer', id=post.id) }}">Delete</a>
-          </div>
-          <hr />
+            <div class="col-md-1">
+                Computer
+            </div>
+            <div class="col-md-2">
+                User
+            </div>
         </div>
+        <hr />
     </div>
+    <div role="content">
+
+    {% for post in post %}
+
+        <div class="row">
+            <div class="col-md-1">
+                <a href="{{ url_for('computer_edit', id=post.id) }}">{{ post.computer_name }}</a>
+                
+            </div>
+            <div class="col-md-2">
+                {% for employee in employees %}
+                    {% if employee.id == post.assigned_to %}
+                    {{ employee.name }}
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="col-sm-1">
+                <a href="{{ url_for('delete_computer', id=post.id) }}">Delete</a>
+            </div>
+        </div>
+        <hr />
 
     {% endfor %}
+
+    </div>
 
 {% endblock %}

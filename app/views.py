@@ -65,7 +65,8 @@ def delete_employee(id):
 @app.route('/computers' , methods=['POST', 'GET'])
 def all_computers():
     post = models.Computers.query.all()
-    return render_template('/computers/computers.html', post=post)
+    employees = models.Employee.query.all()
+    return render_template('/computers/computers.html', employees=employees, post=post)
 
 
 @app.route('/computers/add' , methods=['POST', 'GET'])
