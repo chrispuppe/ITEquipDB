@@ -5,20 +5,23 @@ from datetime import datetime, date
 
 # validation and str to date for input
 def string_to_date(d_string):
-    new_date = ""
-    if d_string.strip() == "":
-        pass
-    elif type(d_string) == str:
-        new_date = datetime.strptime(d_string, '%m/%d/%Y')
-    else:
-        pass
+    
+    new_date = datetime.strptime(d_string, '%m/%d/%Y')
     return new_date
+
+
+# grabs a new employee list from DB
+def fresh_employee_list():
+    choose_employee = models.Employee.query.all()
+    choose_employee.sort(key=lambda x: x.name, reverse=False)
+    return choose_employee
 
 
 @app.route('/' )
 def index():
   post = models.Employee.query.all()
   return render_template('index.html', post=post)
+
 
 @app.route('/employee/add' , methods=['POST', 'GET'])
 def employee_add():
@@ -32,6 +35,7 @@ def employee_add():
         # flash('New entry was successfully posted with ID: {0}'.format(post.id))     
  
     return render_template('employee/add.html')
+
 
 @app.route('/employee/edit/<int:id>' , methods=['POST', 'GET'])
 def edit_employee(id):
@@ -53,6 +57,7 @@ def edit_employee(id):
     else:
         return render_template('employee/edit.html', post=post)
 
+
 @app.route('/employee/delete/<id>' , methods=['POST', 'GET'])
 def delete_employee(id):
     post = models.Employee.query.get(id)
@@ -61,6 +66,7 @@ def delete_employee(id):
     flash ('deleted')
 	   
     return redirect(url_for('index'))
+
 
 @app.route('/computers' , methods=['POST', 'GET'])
 def all_computers():
@@ -71,31 +77,27 @@ def all_computers():
 
 @app.route('/computers/add' , methods=['POST', 'GET'])
 def computer_add():
-    choose_employee = models.Employee.query.all()
-    employee_list = []
-    # make a list of names for dropdown
-    for emp in choose_employee:
-        employee_list.append(emp.name)
-    # sort employees in the list
-    employee_list = sorted(employee_list)
+
+    employee_list = fresh_employee_list()
     # raise exception
     if request.method == 'POST':
-        emp_selected = models.Employee.query.filter_by(name=str(request.form['assigned_to'])).first()
-        emp_selected_id = str(emp_selected.id)
         post = models.Computers(request.form['computer_name'], request.form['brand'],
             request.form['model'], request.form['serial'],
             request.form['computer_type'], request.form['operating_system'],
             request.form['notes'], request.form['aquired_date'],
             request.form['purchase_price'], request.form['vendor_id'], 
             request.form['warranty_start'], request.form['warranty_length'], 
-            request.form['warranty_end'], emp_selected_id)
+            request.form['warranty_end'], request.form['assigned_to'])
 
         db.session.add(post)
         db.session.commit()
     return render_template('computers/add.html', employee_list=employee_list)
 
+
 @app.route('/computers/edit/<int:id>' , methods=['POST', 'GET'])
 def computer_edit(id):
+    # new employee list for form
+    employee_list = fresh_employee_list()
 
     # Validate url to ensure id exists
     post = models.Computers.query.get(id)
@@ -124,7 +126,9 @@ def computer_edit(id):
         db.session.commit()
         return redirect(url_for('all_computers'))
     else:
-        return render_template('computers/edit.html', post=post)
+        return render_template('computers/edit.html',employee_list=employee_list,
+                post=post)
+
 
 @app.route('/computer/delete/<id>' , methods=['POST', 'GET'])
 def delete_computer(id):
