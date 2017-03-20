@@ -90,10 +90,13 @@ def computer_add():
             request.form['computer_name'], request.form['brand'],
             request.form['model'], request.form['serial'],
             request.form['computer_type'], request.form['operating_system'],
-            request.form['notes'], request.form['aquired_date'],
+            request.form['notes'], 
+            string_to_date(request.form['aquired_date']),
             request.form['purchase_price'], request.form['vendor_id'], 
-            request.form['warranty_start'], request.form['warranty_length'], 
-            request.form['warranty_end'], request.form['assigned_to']
+            string_to_date(request.form['warranty_start']), 
+            request.form['warranty_length'], 
+            string_to_date(request.form['warranty_end']), 
+            request.form['assigned_to']
             )
 
         db.session.add(post)

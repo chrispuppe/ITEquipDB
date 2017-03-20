@@ -74,7 +74,7 @@ class Computers(Device):
     warranty_end = db.Column(db.Date)
     employee_id = db.Column(db.Integer)
     history = db.Column(db.String(255))
-    assigned_to = db.Column(db.Integer, ForeignKey('employee.id'))
+    #assigned_to = db.Column(db.Integer, ForeignKey('employee.id'))
 
     def __init__(
                 self, computer_name, brand, model, serial, computer_type, 
