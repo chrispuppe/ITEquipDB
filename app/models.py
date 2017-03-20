@@ -76,10 +76,12 @@ class Computers(Device):
     history = db.Column(db.String(255))
     assigned_to = db.Column(db.Integer, ForeignKey('employee.id'))
 
-    def __init__(self, computer_name, brand, model, serial, computer_type, 
+    def __init__(
+                self, computer_name, brand, model, serial, computer_type, 
                 operating_system, notes, aquired_date, purchase_price, 
                 vendor_id, warranty_start, warranty_length, warranty_end,
-                assigned_to):
+                assigned_to
+                ):
 
         self.computer_name = computer_name
         self.brand = brand

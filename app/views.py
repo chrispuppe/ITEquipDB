@@ -1,34 +1,39 @@
 from flask import render_template, request, flash, redirect, url_for
 from app import app, db
 from app import models
+
 from datetime import datetime, date
 
 # validation and str to date for input
 def string_to_date(d_string):
-    
-    new_date = datetime.strptime(d_string, '%m/%d/%Y')
+    try: 
+        new_date = datetime.strptime(d_string, '%m/%d/%Y')
+    except:
+        new_date = datetime.now().date()
     return new_date
 
 
 # grabs a new employee list from DB
 def fresh_employee_list():
     choose_employee = models.Employee.query.all()
+    # Sort employees by name
     choose_employee.sort(key=lambda x: x.name, reverse=False)
     return choose_employee
 
 
 @app.route('/' )
 def index():
-  post = models.Employee.query.all()
-  return render_template('index.html', post=post)
+    post = fresh_employee_list()
+    return render_template('index.html', post=post)
 
 
 @app.route('/employee/add' , methods=['POST', 'GET'])
 def employee_add():
     if request.method == 'POST':
-        post = models.Employee(request.form['name_form'], 
-            request.form['skill_level_form'], request.form['email_address_form'], 
-            request.form['trade_form'])
+        post = models.Employee(
+            request.form['name_form'], request.form['skill_level_form'], 
+            request.form['email_address_form'], request.form['trade_form']
+            )
         db.session.add(post)
         db.session.commit()
         # db.session.refresh()
@@ -81,13 +86,15 @@ def computer_add():
     employee_list = fresh_employee_list()
     # raise exception
     if request.method == 'POST':
-        post = models.Computers(request.form['computer_name'], request.form['brand'],
+        post = models.Computers(
+            request.form['computer_name'], request.form['brand'],
             request.form['model'], request.form['serial'],
             request.form['computer_type'], request.form['operating_system'],
             request.form['notes'], request.form['aquired_date'],
             request.form['purchase_price'], request.form['vendor_id'], 
             request.form['warranty_start'], request.form['warranty_length'], 
-            request.form['warranty_end'], request.form['assigned_to'])
+            request.form['warranty_end'], request.form['assigned_to']
+            )
 
         db.session.add(post)
         db.session.commit()
@@ -108,6 +115,7 @@ def computer_edit(id):
     # raise exception
     if request.method == 'POST':
         # raise exception
+
         post.computer_name = request.form.get('computer_name')
         post.brand = request.form['brand']
         post.model = request.form['model']
