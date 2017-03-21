@@ -5,40 +5,40 @@
 {% endblock %}
 {% block content %}
     <div role="content">
-        <div class="row">
-            <div class="col-md-1">
-                Computer
-            </div>
-            <div class="col-md-2">
-                User
-            </div>
-        </div>
-        <hr />
-    </div>
-    <div role="content">
+        <h2 class="sub-header">All Computers</h2>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Computer</th>
+                        <th>User</th>
+                        <th>Trade</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
 
     {% for post in post %}
 
-        <div class="row">
-            <div class="col-md-1">
-                <a href="{{ url_for('computer_edit', id=post.id) }}">{{ post.computer_name }}</a>
-                
-            </div>
-            <div class="col-md-2">
-                {% for employee in employees %}
-                    {% if employee.id == post.assigned_to %}
-                    {{ employee.name }}
-                    {% endif %}
-                {% endfor %}
-            </div>
-            <div class="col-sm-1">
-                <a href="{{ url_for('delete_computer', id=post.id) }}">Delete</a>
-            </div>
-        </div>
-        <hr />
+                    <tr>
+                        <td><a href="{{ url_for('computer_edit', id=post.id) }}">{{ post.computer_name }}</a></td>
+                        
+                            {% for employee in employees %}
+                                {% if employee.id == post.assigned_to %}
+                                <td>{{ employee.name }}</td>
+                                <td>{{ employee.trade }}</td>
+                                {% endif %}
+                            {% endfor %}
+
+                        <td><a href="{{ url_for('delete_computer', id=post.id) }}">Delete</a></td>
+                    </tr>
+         
 
     {% endfor %}
 
+                </tbody>
+            </table>
+        </div>
     </div>
 
 {% endblock %}
