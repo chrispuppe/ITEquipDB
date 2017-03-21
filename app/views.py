@@ -93,10 +93,7 @@ def computer_add():
             request.form['notes'], 
             string_to_date(request.form['aquired_date']),
             request.form['purchase_price'], request.form['vendor_id'], 
-            string_to_date(request.form['warranty_start']), 
-            request.form['warranty_length'], 
-            string_to_date(request.form['warranty_end']), 
-            request.form['assigned_to']
+            request.form['warranty_length'], request.form['assigned_to']
             )
 
         db.session.add(post)
@@ -129,9 +126,9 @@ def computer_edit(id):
         post.aquired_date = string_to_date(request.form['aquired_date'])
         post.purchase_price = request.form['purchase_price']
         post.vendor_id = request.form['vendor_id']
-        post.warranty_start = string_to_date(request.form['warranty_start'])
+        
         post.warranty_length = request.form['warranty_length']
-        post.warranty_end = string_to_date(request.form['warranty_end'])
+        
 
         
         db.session.commit()

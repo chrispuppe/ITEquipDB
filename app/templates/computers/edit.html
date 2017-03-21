@@ -97,37 +97,12 @@
                 </div>
                 <input type="text" name="vendor_id" value="{{ post.vendor_id }}"/></p>
             </div>
-            <div class="col-md-4">
-                <div>
-                    <label>Warranty Start:</label>
-                </div>
-                
-                <div style="width:200px;" role="button" class="input-group date" data-provide="datepicker">
-                    <input type="text" name="warranty_start" class="form-control" value="{{ post.warranty_start.strftime('%m/%d/%Y') }}">
-                    <div class="input-group-addon">
-                        <span role="button" class="glyphicon glyphicon-th"></span>
-                    </div>
-                </div>
-            </div>
+            
             <div class="col-md-4">
                 <div>
                     <label>Warranty Length:</label>
                 </div>
                 <input type="text" name="warranty_length" value="{{ post.warranty_length }}"/></p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div>
-                    <label>Warranty End:</label>
-                </div>
-                
-                <div style="width:200px;" role="button" class="input-group date" data-provide="datepicker">
-                    <input type="text" name="warranty_end" class="form-control" value="{{ post.warranty_end.strftime('%m/%d/%Y') }}">
-                    <div class="input-group-addon">
-                        <span class="glyphicon glyphicon-th"></span>
-                    </div>
-                </div>
             </div>
             <div class="col-md-4">
                 <div>

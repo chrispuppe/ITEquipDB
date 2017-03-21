@@ -69,9 +69,7 @@ class Computers(Device):
     aquired_date = db.Column(db.Date)
     purchase_price = db.Column(db.Integer)
     vendor_id = db.Column(db.String(64))
-    warranty_start = db.Column(db.Date)
     warranty_length = db.Column(db.Integer)
-    warranty_end = db.Column(db.Date)
     employee_id = db.Column(db.Integer)
     history = db.Column(db.String(255))
     #assigned_to = db.Column(db.Integer, ForeignKey('employee.id'))
@@ -79,8 +77,7 @@ class Computers(Device):
     def __init__(
                 self, computer_name, brand, model, serial, computer_type, 
                 operating_system, notes, aquired_date, purchase_price, 
-                vendor_id, warranty_start, warranty_length, warranty_end,
-                assigned_to
+                vendor_id, warranty_length, assigned_to
                 ):
 
         self.computer_name = computer_name
@@ -93,9 +90,7 @@ class Computers(Device):
         self.aquired_date = aquired_date
         self.purchase_price = purchase_price
         self.vendor_id = vendor_id
-        self.warranty_start = warranty_start
         self.warranty_length = warranty_length
-        self.warranty_end = warranty_end
         self.assigned_to = assigned_to
 
 
