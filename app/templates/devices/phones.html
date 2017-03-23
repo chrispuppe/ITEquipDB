@@ -1,16 +1,17 @@
 {% extends "layout.html" %}
-{% block title %}All Computer{% endblock %}
+{% block title %}All Phones{% endblock %}
 {% block head %}
 {{ super() }}
 {% endblock %}
 {% block content %}
     <div role="content">
-        <h2 class="sub-header">All Computers</h2>
+        <h2 class="sub-header">All Phones</h2>
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Computer</th>
+                        <th>Phone Number</th>
+                        <th>Phone Type</th>
                         <th>User</th>
                         <th>Trade</th>
                         <th></th>
@@ -21,8 +22,8 @@
     {% for post in post %}
 
                     <tr>
-                        <td><a href="{{ url_for('computer_edit', id=post.id) }}">{{ post.computer_name }}</a></td>
-                        
+                        <td><a href="{{ url_for('phone_edit', id=post.id) }}">{{ post.phone_number }}</a></td>
+                        <td>{{ post.phone_os }}</td>
                             {% for employee in employees %}
                                 {% if employee.id == post.assigned_to %}
                                 <td>{{ employee.name }}</td>
@@ -30,7 +31,7 @@
                                 {% endif %}
                             {% endfor %}
 
-                        <td><a href="{{ url_for('delete_computer', id=post.id) }}">Delete</a></td>
+                        <td><a href="{{ url_for('phone_delete', id=post.id) }}">Delete</a></td>
                     </tr>
          
 

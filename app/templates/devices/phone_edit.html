@@ -4,10 +4,10 @@
 {{ super() }}
 {% endblock %}
 {% block content %}
-    <form action="/computers/edit/{{ post.id }}" method="POST">
+    <form action="/devices/phone_edit/{{ post.id }}" method="POST">
         <div class="row">
             <div class="col-md-4">
-                <a href="{{ url_for('delete_computer', id=post.id) }}">Delete</a>
+                <a href="{{ url_for('phone_delete', id=post.id) }}">Delete</a>
                 <label>ID: {{ post.id }}</label>
                 </p>
             </div>
@@ -15,54 +15,25 @@
         <div class="row">
             <div class="col-md-4">
                 <div>
-                    <label>Computer Name:</label>
+                    <label>Phone Number:</label>
                 </div>
-                <input type="text" name="computer_name" value="{{ post.computer_name }}"></p>
+                <input type="text" name="phone_number" value="{{ post.phone_number }}"></p>
             </div>
             <div class="col-md-4">
                 <div>
-                    <label>Brand:</label>
+                    <label>Phone Brand:</label>
                 </div>
-                <select type="text" name="brand"></p>
-                    <option {% if post.brand == "2Go_PC"%}{{'selected="selected"' }}{% endif %} value="2Go_PC">2Go PC</option>
-                    <option {% if post.brand == "Acer"%}{{'selected="selected"' }}{% endif %} value="Acer">Acer</option>
-                    <option {% if post.brand == "Custom"%}{{'selected="selected"' }}{% endif %} value="Custom">Custom</option>
-                    <option {% if post.brand == "Dell"%}{{'selected="selected"' }}{% endif %} value="Dell">Dell</option>
-                    <option {% if post.brand == "Fujitsu"%}{{'selected="selected"' }}{% endif %} value="Fujitsu">Fujitsu</option>
-                    <option {% if post.brand == "HP"%}{{'selected="selected"' }}{% endif %} value="HP">HP</option>
-                    <option {% if post.brand == "Lenovo"%}{{'selected="selected"' }}{% endif %} value="Lenovo">Lenovo</option>
-                    <option {% if post.brand == "Microsoft"%}{{'selected="selected"' }}{% endif %} value="Microsoft">Microsoft</option>
-                    <option {% if post.brand == "Toshiba"%}{{'selected="selected"' }}{% endif %} value="Toshiba">Toshiba</option>
+                <select type="text" name="phone_os"></p>
+                    <option {% if post.phone_os == "Android"%}{{'selected="selected"' }}{% endif %} value="Android">Android</option>
+                    <option {% if post.phone_os == "Apple"%}{{'selected="selected"' }}{% endif %} value="Apple">Apple</option>
+                    <option {% if post.phone_os == "Generic"%}{{'selected="selected"' }}{% endif %} value="Generic">Generic</option>
                 </select>
             </div>
             <div class="col-md-4">
                 <div>
                     <label>Model:</label>
                 </div>
-                <input type="text" name="model" value="{{ post.model }}"/></p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div>
-                    <label>S/N or Service Tag:</label>
-                </div>
-                <input type="text" name="serial" value="{{ post.serial }}"/></p>
-            </div>
-            <div class="col-md-4">
-                <div>
-                    <label>Desktop or Laptop:</label>
-                </div>
-                <select type="text" name="computer_type"></p>
-                    <option {% if post.computer_type == "Desktop"%}{{'selected="selected"' }}{% endif %} value="Desktop">Desktop</option>
-                    <option {% if post.computer_type == "Laptop"%}{{'selected="selected"' }}{% endif %} value="Laptop">Laptop</option>
-                </select>
-            </div>
-            <div class="col-md-4">
-                <div>
-                    <label>OS:</label>
-                </div>
-                <input type="text" name="operating_system" value="{{ post.operating_system }}"/></p>
+                <input type="text" name="phone_model" value="{{ post.phone_model }}"/></p>
             </div>
         </div>
         <div class="row">
@@ -74,41 +45,8 @@
             </div>
             <div class="col-md-4">
                 <div>
-                    <label>Purchase Date:</label>
-                </div>
-                <div style="width:200px;" role="button" class="input-group date" data-provide="datepicker">
-                    <input type="text" name="aquired_date" class="form-control" value="{{ post.aquired_date.strftime('%m/%d/%Y') }}" %}>
-                    <div class="input-group-addon">
-                        <span  class="glyphicon glyphicon-th"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div>
-                    <label>Purchase Price:</label>
-                </div>
-                <input type="text" name="purchase_price" value="{{ post.purchase_price }}"/></p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div>
-                    <label>Vendor:</label>
-                </div>
-                <input type="text" name="vendor_id" value="{{ post.vendor_id }}"/></p>
-            </div>
-            
-            <div class="col-md-4">
-                <div>
-                    <label>Warranty Length:</label>
-                </div>
-                <input type="text" name="warranty_length" value="{{ post.warranty_length }}"/></p>
-            </div>
-            <div class="col-md-4">
-                <div>
                     <label>Assigned To:</label>
                 </div>
-                
                 <select type="text" name="assigned_to"></p>
 
                 {% for employee in employee_list %}

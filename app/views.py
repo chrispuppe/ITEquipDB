@@ -237,29 +237,30 @@ def delete_computer(id):
     return redirect(url_for('all_computers'))
 
 
-#####
+#######  Phones  #######
 @app.route('/devices/phones' , methods=['POST', 'GET'])
 @login_required
 def all_phones():
-    post = models.Computers.query.all()
+    post = models.Phone_Account.query.all()
     employees = models.Employee.query.all()
-    return render_template('/computers/computers.html', employees=employees, post=post)
+    return render_template('/devices/phones.html', employees=employees, post=post)
 
 
-@app.route('/devices/phones_add' , methods=['POST', 'GET'])
+@app.route('/devices/phone_add' , methods=['POST', 'GET'])
 @login_required
 def phone_add():
 
     employee_list = fresh_employee_list()
     # raise exception
     if request.method == 'POST':
-        post = models.Computers(
+        post = models.Phone_Account(
             request.form['phone_number'], request.form['phone_model'], 
-            request.form['phone_os'], request.form['notes']
+            request.form['phone_os'], request.form['notes'],
+            request.form['assigned_to']
             )
         db.session.add(post)
         db.session.commit()
-    return render_template('computers/add.html', employee_list=employee_list)
+    return render_template('devices/phone_add.html', employee_list=employee_list)
 
 
 @app.route('/devices/phone_edit/<int:id>' , methods=['POST', 'GET'])
@@ -269,7 +270,7 @@ def phone_edit(id):
     employee_list = fresh_employee_list()
 
     # Validate url to ensure id exists
-    post = models.Computers.query.get(id)
+    post = models.Phone_Account.query.get(id)
     if not post:
         flash('Invalid post id: {0}'.format(id))
         return redirect(url_for('index'))
@@ -278,34 +279,25 @@ def phone_edit(id):
     if request.method == 'POST':
         # raise exception
 
-        post.computer_name = request.form.get('computer_name')
-        post.brand = request.form['brand']
-        post.model = request.form['model']
-        post.serial = request.form['serial']
-        post.computer_type = request.form['computer_type']
-        post.operating_system = request.form['operating_system']
+        post.phone_number = request.form['phone_number']
+        post.phone_model = request.form['phone_model']
+        post.phone_os = request.form['phone_os']
         post.notes = request.form['notes']
-        post.aquired_date = string_to_date(request.form['aquired_date'])
-        post.purchase_price = request.form['purchase_price']
-        post.vendor_id = request.form['vendor_id']
-        
-        post.warranty_length = request.form['warranty_length']
-        
+        post.assigned_to = request.form['assigned_to']
 
-        
         db.session.commit()
-        return redirect(url_for('all_computers'))
+        return redirect(url_for('all_phones'))
     else:
-        return render_template('computers/edit.html',employee_list=employee_list,
+        return render_template('devices/phone_edit.html',employee_list=employee_list,
                 post=post)
 
 
 @app.route('/devices/phone_delete/<id>' , methods=['POST', 'GET'])
 @login_required
 def phone_delete(id):
-    post = models.Computers.query.get(id)
+    post = models.Phone_Account.query.get(id)
     db.session.delete(post)
     db.session.commit()
     flash ('deleted')
 
-    return redirect(url_for('all_computers'))
+    return redirect(url_for('all_phones'))
