@@ -78,7 +78,7 @@ class Computers(Device):
     warranty_length = db.Column(db.Integer)
     employee_id = db.Column(db.Integer)
     history = db.Column(db.String(255))
-    #assigned_to = db.Column(db.Integer, ForeignKey('employee.id'))
+    assigned_to = db.Column(db.Integer, ForeignKey('employee.id'))
 
     def __init__(
                 self, computer_name, brand, model, serial, computer_type, 
@@ -121,6 +121,15 @@ class Phone_Account(Device):
     phone_model = db.Column(db.String(16))
     phone_os = db.Column(db.String(64))
     notes = db.Column(db.String(255))
+    assigned_to = db.Column(db.Integer, ForeignKey('employee.id'))
+
+    def __init__(self, phone_number, phone_model, phone_os, notes, assigned_to):
+
+        self.phone_number = phone_number
+        self.phone_model = phone_model
+        self.phone_os = phone_os
+        self.notes = notes
+        self.assigned_to = assigned_to
 
 
 class Vendors(db.Model):

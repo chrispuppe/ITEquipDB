@@ -36,19 +36,24 @@ def load_user(user_id):
     return models.User.query.get(int(user_id))
 
 class LoginForm(FlaskForm):
-    username = StringField('username', validators=[InputRequired(), Length(min=4, max=15)])
-    password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
-    remember = BooleanField('remember me')
+    username = StringField('Username', validators=[InputRequired(), 
+                Length(min=4, max=15)], render_kw={"placeholder": "Username", "autofocus": ""})
+    password = PasswordField('Password', validators=[InputRequired(), 
+                Length(min=8, max=80)], render_kw={"placeholder": "Password"})
+    remember = BooleanField('Remember Me')
 
 class RegisterForm(FlaskForm):
-    email = StringField('email', validators=[InputRequired(), Email(message='Invalid email'), Length(max=50)])
-    username = StringField('username', validators=[InputRequired(), Length(min=4, max=15)])
-    password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
+    email = StringField('Email Address', validators=[InputRequired(), Email(message='Invalid email'), 
+                Length(max=50)], render_kw={"placeholder": "Email Address"})
+    username = StringField('Username', validators=[InputRequired(), 
+                Length(min=4, max=15)], render_kw={"placeholder": "Username", "autofocus": ""})
+    password = PasswordField('Password', validators=[InputRequired(), 
+                Length(min=8, max=80)], render_kw={"placeholder": "Password"})
 
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return redirect(url_for('all_computers'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -62,7 +67,7 @@ def login():
                 return redirect(url_for('all_employees'))
 
         return '<h1>Invalid username or password</h1>'
-        #return '<h1>' + form.username.data + ' ' + form.password.data + '</h1>'
+        
 
     return render_template('login.html', form=form)
 
@@ -76,8 +81,11 @@ def signup():
         db.session.add(new_user)
         db.session.commit()
 
-        return '<h1>New user has been created!</h1>'
-        #return '<h1>' + form.username.data + ' ' + form.email.data + ' ' + form.password.data + '</h1>'
+        return redirect(url_for('login'))
+
+    else:
+        pass
+        
 
     return render_template('signup.html', form=form)
 
@@ -101,6 +109,7 @@ def all_employees():
 
 
 @app.route('/employee/add' , methods=['POST', 'GET'])
+@login_required
 def employee_add():
     if request.method == 'POST':
         post = models.Employee(
@@ -109,13 +118,15 @@ def employee_add():
             )
         db.session.add(post)
         db.session.commit()
-        # db.session.refresh()
-        # flash('New entry was successfully posted with ID: {0}'.format(post.id))     
+        
+    else:
+        pass     
  
     return render_template('employee/add.html')
 
 
 @app.route('/employee/edit/<int:id>' , methods=['POST', 'GET'])
+@login_required
 def edit_employee(id):
     #Getting user by primary key:
     # Validate url to ensure id exists
@@ -137,6 +148,7 @@ def edit_employee(id):
 
 
 @app.route('/employee/delete/<id>' , methods=['POST', 'GET'])
+@login_required
 def delete_employee(id):
     post = models.Employee.query.get(id)
     db.session.delete(post)
@@ -147,6 +159,7 @@ def delete_employee(id):
 
 
 @app.route('/computers' , methods=['POST', 'GET'])
+@login_required
 def all_computers():
     post = models.Computers.query.all()
     employees = models.Employee.query.all()
@@ -154,6 +167,7 @@ def all_computers():
 
 
 @app.route('/computers/add' , methods=['POST', 'GET'])
+@login_required
 def computer_add():
 
     employee_list = fresh_employee_list()
@@ -175,6 +189,7 @@ def computer_add():
 
 
 @app.route('/computers/edit/<int:id>' , methods=['POST', 'GET'])
+@login_required
 def computer_edit(id):
     # new employee list for form
     employee_list = fresh_employee_list()
@@ -212,7 +227,82 @@ def computer_edit(id):
 
 
 @app.route('/computer/delete/<id>' , methods=['POST', 'GET'])
+@login_required
 def delete_computer(id):
+    post = models.Computers.query.get(id)
+    db.session.delete(post)
+    db.session.commit()
+    flash ('deleted')
+
+    return redirect(url_for('all_computers'))
+
+
+#####
+@app.route('/devices/phones' , methods=['POST', 'GET'])
+@login_required
+def all_phones():
+    post = models.Computers.query.all()
+    employees = models.Employee.query.all()
+    return render_template('/computers/computers.html', employees=employees, post=post)
+
+
+@app.route('/devices/phones_add' , methods=['POST', 'GET'])
+@login_required
+def phone_add():
+
+    employee_list = fresh_employee_list()
+    # raise exception
+    if request.method == 'POST':
+        post = models.Computers(
+            request.form['phone_number'], request.form['phone_model'], 
+            request.form['phone_os'], request.form['notes']
+            )
+        db.session.add(post)
+        db.session.commit()
+    return render_template('computers/add.html', employee_list=employee_list)
+
+
+@app.route('/devices/phone_edit/<int:id>' , methods=['POST', 'GET'])
+@login_required
+def phone_edit(id):
+    # new employee list for form
+    employee_list = fresh_employee_list()
+
+    # Validate url to ensure id exists
+    post = models.Computers.query.get(id)
+    if not post:
+        flash('Invalid post id: {0}'.format(id))
+        return redirect(url_for('index'))
+
+    # raise exception
+    if request.method == 'POST':
+        # raise exception
+
+        post.computer_name = request.form.get('computer_name')
+        post.brand = request.form['brand']
+        post.model = request.form['model']
+        post.serial = request.form['serial']
+        post.computer_type = request.form['computer_type']
+        post.operating_system = request.form['operating_system']
+        post.notes = request.form['notes']
+        post.aquired_date = string_to_date(request.form['aquired_date'])
+        post.purchase_price = request.form['purchase_price']
+        post.vendor_id = request.form['vendor_id']
+        
+        post.warranty_length = request.form['warranty_length']
+        
+
+        
+        db.session.commit()
+        return redirect(url_for('all_computers'))
+    else:
+        return render_template('computers/edit.html',employee_list=employee_list,
+                post=post)
+
+
+@app.route('/devices/phone_delete/<id>' , methods=['POST', 'GET'])
+@login_required
+def phone_delete(id):
     post = models.Computers.query.get(id)
     db.session.delete(post)
     db.session.commit()

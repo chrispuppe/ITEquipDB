@@ -1,9 +1,15 @@
-{% extends "layout.html" %}
+{% extends "bootstrap/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% block title %}Home{% endblock %}
-{% block head %}
-{{ super() }}
+
+{% block title %}
+Login
 {% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="/static/css/signin.css">
+{% endblock %}
+
 {% block content %}
     <div class="container">
 
