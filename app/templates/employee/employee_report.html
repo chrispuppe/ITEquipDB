@@ -43,9 +43,7 @@
                     <tr>
                         <th>Phone Number</th>
                         <th>Phone Type</th>
-                        <th>User</th>
-                        <th>Trade</th>
-                        <th></th>
+                        <th>Model</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -55,18 +53,9 @@
                     <tr>
                         <td><a href="{{ url_for('phone_edit', id=phone.id) }}">{{ phone.phone_number }}</a></td>
                         <td>{{ phone.phone_os }}</td>
-                            
-                                {% if employee.id == phone.assigned_to %}
-                                <td>{{ employee.name }}</td>
-                                <td>{{ employee.trade }}</td>
-                                {% endif %}
-                            
-
-                        <td><a href="{{ url_for('phone_delete', id=phone.id) }}">Delete</a></td>
+                        <td>{{ phone.phone_model }}</td>
                     </tr>
                     {% endif %}
-         
-
     {% endfor %}
 
                 </tbody>
