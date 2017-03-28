@@ -25,7 +25,9 @@ def fresh_employee_list():
     choose_employee.sort(key=lambda x: x.name, reverse=False)
     return choose_employee
 
-##############################################################################
+#######################################################################
+#############  Login  #############
+
 # Login manager setup
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -100,7 +102,9 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-###############################################################################
+#######################################################################
+
+#############  Employees  #############
 @app.route('/employee' )
 @login_required
 def all_employees():
@@ -154,10 +158,39 @@ def delete_employee(id):
     db.session.delete(post)
     db.session.commit()
     flash ('deleted')
-	   
+
     return redirect(url_for('index'))
 
+###################  Employee Report  ###################
 
+@app.route('/employee/report/<int:id>' , methods=['POST', 'GET'])
+@login_required
+def employee_report(id):
+    #Getting user by primary key:
+    # Validate url to ensure id exists
+    employee = models.Employee.query.get(id)
+    if not employee:
+        flash('Invalid employee id: {0}'.format(id))
+        return redirect(url_for('index'))
+
+    assigned_computers = models.Computers.query.all()
+    assigned_phones = models.Phone_Account.query.all()
+    # raise exception
+    
+    return render_template('employee/employee_report.html', employee=employee,
+                            assigned_computers=assigned_computers,
+                            assigned_phones=assigned_phones)
+
+
+###################  Devices  ###################
+@app.route('/devices' , methods=['POST', 'GET'])
+@login_required
+def all_devices():
+    post = models.Device.query.all()
+    employees = models.Employee.query.all()
+    return render_template('/devices/devices.html', employees=employees, post=post)
+
+###################  Computers  ###################
 @app.route('/computers' , methods=['POST', 'GET'])
 @login_required
 def all_computers():
@@ -214,10 +247,8 @@ def computer_edit(id):
         post.aquired_date = string_to_date(request.form['aquired_date'])
         post.purchase_price = request.form['purchase_price']
         post.vendor_id = request.form['vendor_id']
-        
         post.warranty_length = request.form['warranty_length']
-        
-
+        post.assigned_to = request.form['assigned_to']
         
         db.session.commit()
         return redirect(url_for('all_computers'))
@@ -237,7 +268,7 @@ def delete_computer(id):
     return redirect(url_for('all_computers'))
 
 
-#######  Phones  #######
+#############  Phones  #############
 @app.route('/devices/phones' , methods=['POST', 'GET'])
 @login_required
 def all_phones():

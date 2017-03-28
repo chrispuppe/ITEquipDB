@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+{% block title %}User Report{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+    <div role="content">
+        <h2 class="sub-header">User Report for {{ employee.name }}</h2>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Computer(s) Assigned</th>
+                        <th>Type</th>
+                        <th>Brand</th>
+                        <th>Model</th>
+                        <th>Serial</th>
+                        <th>OS</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+    {% for computer in assigned_computers %}
+                    {% if employee.id == computer.assigned_to %}
+                    <tr>
+                        <td><a href="{{ url_for('computer_edit', id=computer.id) }}">{{ computer.computer_name }}</a></td>
+                        <td>{{ computer.computer_type }}</td>
+                        <td>{{ computer.brand }}</td>
+                        <td>{{ computer.model }}</td>
+                        <td>{{ computer.serial }}</td>
+                        <td>{{ computer.operating_system }}</td>
+                    </tr>
+                    {% endif %}
+
+    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Phone Number</th>
+                        <th>Phone Type</th>
+                        <th>User</th>
+                        <th>Trade</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+    {% for phone in assigned_phones %}
+                    {% if employee.id == phone.assigned_to %}
+                    <tr>
+                        <td><a href="{{ url_for('phone_edit', id=phone.id) }}">{{ phone.phone_number }}</a></td>
+                        <td>{{ phone.phone_os }}</td>
+                            
+                                {% if employee.id == phone.assigned_to %}
+                                <td>{{ employee.name }}</td>
+                                <td>{{ employee.trade }}</td>
+                                {% endif %}
+                            
+
+                        <td><a href="{{ url_for('phone_delete', id=phone.id) }}">Delete</a></td>
+                    </tr>
+                    {% endif %}
+         
+
+    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}
