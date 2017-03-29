@@ -175,6 +175,9 @@ def employee_report(id):
 
     assigned_computers = models.Computers.query.all()
     assigned_phones = models.Phone_Account.query.all()
+    assigned_printers = models.Printers.query.all()
+    assigned_fobs = models.Fob.query.all()
+    assigned_ipads = models.Ipads.query.all()
     # raise exception
     
     return render_template('employee/employee_report.html', employee=employee,
@@ -326,6 +329,203 @@ def phone_edit(id):
 @app.route('/devices/phone_delete/<id>' , methods=['POST', 'GET'])
 @login_required
 def phone_delete(id):
+    post = models.Phone_Account.query.get(id)
+    db.session.delete(post)
+    db.session.commit()
+    flash ('deleted')
+
+    return redirect(url_for('all_phones'))
+
+
+#############  FOB  #############
+@app.route('/devices/fobs' , methods=['POST', 'GET'])
+@login_required
+def all_fobs():
+    post = models.Phone_Account.query.all()
+    employees = models.Employee.query.all()
+    return render_template('/devices/fobs.html', employees=employees, post=post)
+
+
+@app.route('/devices/fob_add' , methods=['POST', 'GET'])
+@login_required
+def fob_add():
+
+    employee_list = fresh_employee_list()
+    # raise exception
+    if request.method == 'POST':
+        post = models.Phone_Account(
+            request.form['phone_number'], request.form['phone_model'], 
+            request.form['phone_os'], request.form['notes'],
+            request.form['assigned_to']
+            )
+        db.session.add(post)
+        db.session.commit()
+    return render_template('devices/fob_add.html', employee_list=employee_list)
+
+
+@app.route('/devices/fob_edit/<int:id>' , methods=['POST', 'GET'])
+@login_required
+def fob_edit(id):
+    # new employee list for form
+    employee_list = fresh_employee_list()
+
+    # Validate url to ensure id exists
+    post = models.Phone_Account.query.get(id)
+    if not post:
+        flash('Invalid post id: {0}'.format(id))
+        return redirect(url_for('index'))
+
+    # raise exception
+    if request.method == 'POST':
+        # raise exception
+
+        post.phone_number = request.form['phone_number']
+        post.phone_model = request.form['phone_model']
+        post.phone_os = request.form['phone_os']
+        post.notes = request.form['notes']
+        post.assigned_to = request.form['assigned_to']
+
+        db.session.commit()
+        return redirect(url_for('all_phones'))
+    else:
+        return render_template('devices/fob_edit.html',employee_list=employee_list,
+                post=post)
+
+
+@app.route('/devices/fob_delete/<id>' , methods=['POST', 'GET'])
+@login_required
+def fob_delete(id):
+    post = models.Phone_Account.query.get(id)
+    db.session.delete(post)
+    db.session.commit()
+    flash ('deleted')
+
+    return redirect(url_for('all_phones'))
+
+
+#############  iPad  #############
+@app.route('/devices/ipads' , methods=['POST', 'GET'])
+@login_required
+def all_ipads():
+    post = models.Phone_Account.query.all()
+    employees = models.Employee.query.all()
+    return render_template('/devices/ipads.html', employees=employees, post=post)
+
+
+@app.route('/devices/ipad_add' , methods=['POST', 'GET'])
+@login_required
+def ipad_add():
+
+    employee_list = fresh_employee_list()
+    # raise exception
+    if request.method == 'POST':
+        post = models.Phone_Account(
+            request.form['phone_number'], request.form['phone_model'], 
+            request.form['phone_os'], request.form['notes'],
+            request.form['assigned_to']
+            )
+        db.session.add(post)
+        db.session.commit()
+    return render_template('devices/ipad_add.html', employee_list=employee_list)
+
+
+@app.route('/devices/ipad_edit/<int:id>' , methods=['POST', 'GET'])
+@login_required
+def ipad_edit(id):
+    # new employee list for form
+    employee_list = fresh_employee_list()
+
+    # Validate url to ensure id exists
+    post = models.Phone_Account.query.get(id)
+    if not post:
+        flash('Invalid post id: {0}'.format(id))
+        return redirect(url_for('index'))
+
+    # raise exception
+    if request.method == 'POST':
+        # raise exception
+
+        post.phone_number = request.form['phone_number']
+        post.phone_model = request.form['phone_model']
+        post.phone_os = request.form['phone_os']
+        post.notes = request.form['notes']
+        post.assigned_to = request.form['assigned_to']
+
+        db.session.commit()
+        return redirect(url_for('all_phones'))
+    else:
+        return render_template('devices/ipad_edit.html',employee_list=employee_list,
+                post=post)
+
+
+@app.route('/devices/ipad_delete/<id>' , methods=['POST', 'GET'])
+@login_required
+def ipad_delete(id):
+    post = models.Phone_Account.query.get(id)
+    db.session.delete(post)
+    db.session.commit()
+    flash ('deleted')
+
+    return redirect(url_for('all_phones'))
+
+#############  Printer  #############
+@app.route('/devices/printers' , methods=['POST', 'GET'])
+@login_required
+def all_printers():
+    post = models.Phone_Account.query.all()
+    employees = models.Employee.query.all()
+    return render_template('/devices/printers.html', employees=employees, post=post)
+
+
+@app.route('/devices/printer_add' , methods=['POST', 'GET'])
+@login_required
+def printer_add():
+
+    employee_list = fresh_employee_list()
+    # raise exception
+    if request.method == 'POST':
+        post = models.Phone_Account(
+            request.form['phone_number'], request.form['phone_model'], 
+            request.form['phone_os'], request.form['notes'],
+            request.form['assigned_to']
+            )
+        db.session.add(post)
+        db.session.commit()
+    return render_template('devices/printer_add.html', employee_list=employee_list)
+
+
+@app.route('/devices/printer_edit/<int:id>' , methods=['POST', 'GET'])
+@login_required
+def printer_edit(id):
+    # new employee list for form
+    employee_list = fresh_employee_list()
+
+    # Validate url to ensure id exists
+    post = models.Phone_Account.query.get(id)
+    if not post:
+        flash('Invalid post id: {0}'.format(id))
+        return redirect(url_for('index'))
+
+    # raise exception
+    if request.method == 'POST':
+        # raise exception
+
+        post.phone_number = request.form['phone_number']
+        post.phone_model = request.form['phone_model']
+        post.phone_os = request.form['phone_os']
+        post.notes = request.form['notes']
+        post.assigned_to = request.form['assigned_to']
+
+        db.session.commit()
+        return redirect(url_for('all_phones'))
+    else:
+        return render_template('devices/printer_edit.html',employee_list=employee_list,
+                post=post)
+
+
+@app.route('/devices/printer_delete/<id>' , methods=['POST', 'GET'])
+@login_required
+def printer_delete(id):
     post = models.Phone_Account.query.get(id)
     db.session.delete(post)
     db.session.commit()
