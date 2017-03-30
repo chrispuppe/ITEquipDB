@@ -4,10 +4,10 @@
 {{ super() }}
 {% endblock %}
 {% block content %}
-    <form action="/devices/phone_edit/{{ post.id }}" method="POST">
+    <form action="/devices/fob_edit/{{ post.id }}" method="POST">
         <div class="row">
             <div class="col-md-4">
-                <a href="{{ url_for('phone_delete', id=post.id) }}">Delete</a>
+                <a href="{{ url_for('fob_delete', id=post.id) }}">Delete</a>
                 <label>ID: {{ post.id }}</label>
                 </p>
             </div>
@@ -15,34 +15,18 @@
         <div class="row">
             <div class="col-md-4">
                 <div>
-                    <label>Phone Number:</label>
+                    <label>FOB Number:</label>
                 </div>
-                <input type="text" name="phone_number" value="{{ post.phone_number }}"></p>
+                <input type="text" name="fob_number" value="{{ post.fob_number }}"></p>
             </div>
+            
             <div class="col-md-4">
                 <div>
-                    <label>Phone Brand:</label>
+                    <label>Serial Number:</label>
                 </div>
-                <select type="text" name="phone_os"></p>
-                    <option {% if post.phone_os == "Android"%}{{'selected="selected"' }}{% endif %} value="Android">Android</option>
-                    <option {% if post.phone_os == "Apple"%}{{'selected="selected"' }}{% endif %} value="Apple">Apple</option>
-                    <option {% if post.phone_os == "Generic"%}{{'selected="selected"' }}{% endif %} value="Generic">Generic</option>
-                </select>
+                <input type="text" name="fob_serial" value="{{ post.fob_serial }}"/></p>
             </div>
-            <div class="col-md-4">
-                <div>
-                    <label>Model:</label>
-                </div>
-                <input type="text" name="phone_model" value="{{ post.phone_model }}"/></p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div>
-                    <label>Notes:</label>
-                </div>
-                <input type="text" name="notes" value="{{ post.notes }}"/></p>
-            </div>
+        
             <div class="col-md-4">
                 <div>
                     <label>Assigned To:</label>

@@ -53,8 +53,15 @@ class Fob(Device):
     __maper_args__ = {'polymorphic_identity': 'fob'}
 
     id = db.Column(db.Integer, ForeignKey('device.id'), primary_key=True)
-    num = db.Column(db.Integer)
-    serial = db.Column(db.String(64))
+    fob_number = db.Column(db.Integer)
+    fob_serial = db.Column(db.String(64))
+    assigned_to = db.Column(db.Integer, ForeignKey('employee.id'))
+
+    def __init__(self, fob_number, fob_serial, assigned_to):
+        self.fob_number = fob_number
+        self.fob_serial = fob_serial
+        self.assigned_to = assigned_to
+
 
 
 class Computers(Device):

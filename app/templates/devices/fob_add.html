@@ -1,42 +1,25 @@
 {% extends "layout.html" %}
-{% block title %}Add Phone{% endblock %}
+{% block title %}Add FOB{% endblock %}
 {% block head %}
 {{ super() }}
 {% endblock %}
 {% block content %}
-    <form action="/devices/phone_add" method="post">
+    <form action="/devices/fob_add" method="post">
         <div class="row">
             <div class="col-md-4">
                 <div>
-                    <label>Phone Number:</label>
+                    <label>FOB Number:</label>
                 </div>
-                <input type="text" name="phone_number"/></p>
+                <input type="text" name="fob_number"/></p>
             </div>
+            
             <div class="col-md-4">
                 <div>
-                    <label>Phone Brand:</label>
+                    <label>Serial Number:</label>
                 </div>
-                <select type="text" name="phone_os"></p>
-                    <option value="Android">Android</option>
-                    <option value="Apple">Apple</option>
-                    <option value="Generic">Generic</option>
-                </select>
+                <input type="text" name="fob_serial"/></p>
             </div>
-            <div class="col-md-4">
-                <div>
-                    <label>Model:</label>
-                </div>
-                <input type="text" name="phone_model"/></p>
-            </div>
-        </div>
         
-        <div class="row">
-            <div class="col-md-4">
-                <div>
-                    <label>Notes:</label>
-                </div>
-                <input type="text" name="notes"/></p>
-            </div>
             <div class="col-md-4">
                 <div>
                     <label>Assigned To:</label>

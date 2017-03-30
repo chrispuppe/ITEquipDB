@@ -182,7 +182,8 @@ def employee_report(id):
     
     return render_template('employee/employee_report.html', employee=employee,
                             assigned_computers=assigned_computers,
-                            assigned_phones=assigned_phones)
+                            assigned_phones=assigned_phones,
+                            assigned_fobs=assigned_fobs)
 
 
 ###################  Devices  ###################
@@ -341,7 +342,7 @@ def phone_delete(id):
 @app.route('/devices/fobs' , methods=['POST', 'GET'])
 @login_required
 def all_fobs():
-    post = models.Phone_Account.query.all()
+    post = models.Fob.query.all()
     employees = models.Employee.query.all()
     return render_template('/devices/fobs.html', employees=employees, post=post)
 
@@ -353,9 +354,8 @@ def fob_add():
     employee_list = fresh_employee_list()
     # raise exception
     if request.method == 'POST':
-        post = models.Phone_Account(
-            request.form['phone_number'], request.form['phone_model'], 
-            request.form['phone_os'], request.form['notes'],
+        post = models.Fob(
+            request.form['fob_number'], request.form['fob_serial'],
             request.form['assigned_to']
             )
         db.session.add(post)
@@ -370,7 +370,7 @@ def fob_edit(id):
     employee_list = fresh_employee_list()
 
     # Validate url to ensure id exists
-    post = models.Phone_Account.query.get(id)
+    post = models.Fob.query.get(id)
     if not post:
         flash('Invalid post id: {0}'.format(id))
         return redirect(url_for('index'))
@@ -379,14 +379,12 @@ def fob_edit(id):
     if request.method == 'POST':
         # raise exception
 
-        post.phone_number = request.form['phone_number']
-        post.phone_model = request.form['phone_model']
-        post.phone_os = request.form['phone_os']
-        post.notes = request.form['notes']
+        post.fob_number = request.form['fob_number']
+        post.fob_serial = request.form['fob_serial']
         post.assigned_to = request.form['assigned_to']
 
         db.session.commit()
-        return redirect(url_for('all_phones'))
+        return redirect(url_for('all_fobs'))
     else:
         return render_template('devices/fob_edit.html',employee_list=employee_list,
                 post=post)
@@ -395,12 +393,12 @@ def fob_edit(id):
 @app.route('/devices/fob_delete/<id>' , methods=['POST', 'GET'])
 @login_required
 def fob_delete(id):
-    post = models.Phone_Account.query.get(id)
+    post = models.Fob.query.get(id)
     db.session.delete(post)
     db.session.commit()
     flash ('deleted')
 
-    return redirect(url_for('all_phones'))
+    return redirect(url_for('all_fobs'))
 
 
 #############  iPad  #############

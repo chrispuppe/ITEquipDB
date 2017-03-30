@@ -61,6 +61,34 @@
                 </tbody>
             </table>
         </div>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>FOB Number</th>
+                        <th>Serial</th>
+                        <th>User</th>
+                        <th>Trade</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+    {% for fob in assigned_fobs %}
+                    {% if employee.id == fob.assigned_to %}
+                    <tr>
+                        <td><a href="{{ url_for('fob_edit', id=fob.id) }}">{{ fob.fob_number }}</a></td>
+                        <td>{{ fob.fob_serial }}</td>
+                            <td>{{ employee.name }}</td>
+                            <td>{{ employee.trade }}</td>
+                    </tr>
+                    {% endif %}
+
+    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
     </div>
 
 {% endblock %}
