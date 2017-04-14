@@ -1,10 +1,10 @@
 {% extends "layout.html" %}
-{% block title %}Edit Computer{% endblock %}
+{% block title %}Edit iPad{% endblock %}
 {% block head %}
 {{ super() }}
 {% endblock %}
 {% block content %}
-    <form action="/devices/phone_edit/{{ post.id }}" method="POST">
+    <form action="/devices/ipad_edit/{{ post.id }}" method="POST">
         <div class="row">
             <div class="col-md-4">
                 <a href="{{ url_for('phone_delete', id=post.id) }}">Delete</a>
@@ -15,33 +15,43 @@
         <div class="row">
             <div class="col-md-4">
                 <div>
-                    <label>Phone Number:</label>
+                    <label>Serial:</label>
                 </div>
-                <input type="text" name="phone_number" value="{{ post.phone_number }}"></p>
-            </div>
-            <div class="col-md-4">
-                <div>
-                    <label>Phone Brand:</label>
-                </div>
-                <select type="text" name="phone_os"></p>
-                    <option {% if post.phone_os == "Android"%}{{'selected="selected"' }}{% endif %} value="Android">Android</option>
-                    <option {% if post.phone_os == "Apple"%}{{'selected="selected"' }}{% endif %} value="Apple">Apple</option>
-                    <option {% if post.phone_os == "Generic"%}{{'selected="selected"' }}{% endif %} value="Generic">Generic</option>
-                </select>
+                <input type="text" name="serial" value="{{ post.serial }}"></p>
             </div>
             <div class="col-md-4">
                 <div>
                     <label>Model:</label>
                 </div>
-                <input type="text" name="phone_model" value="{{ post.phone_model }}"/></p>
+                <select type="text" name="model"></p>
+                    <option {% if post.model == "iPad 2"%}{{'selected="selected"' }}{% endif %} value="iPad 2">iPad 2</option>
+                    <option {% if post.model == "iPad Air"%}{{'selected="selected"' }}{% endif %} value="iPad Air">iPad Air</option>
+                    <option {% if post.model == "iPad Air 2"%}{{'selected="selected"' }}{% endif %} value="iPad Air 2">iPad Air 2</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <div>
+                    <label>Storage Capacity:</label>
+                </div>
+                <select type="text" name="storage_capacity"></p>
+                    <option {% if post.storage_capacity == "16 GB"%}{{'selected="selected"' }}{% endif %} value="16 GB">16 GB</option>
+                    <option {% if post.storage_capacity == "32 GB"%}{{'selected="selected"' }}{% endif %} value="32 GB">32 GB</option>
+                    <option {% if post.storage_capacity == "64 GB"%}{{'selected="selected"' }}{% endif %} value="64 GB">64 GB</option>
+                    <option {% if post.storage_capacity == "128 GB"%}{{'selected="selected"' }}{% endif %} value="128 GB">128 GB</option>
+                </select>
             </div>
         </div>
         <div class="row">
             <div class="col-md-4">
                 <div>
-                    <label>Notes:</label>
+                    <label>Purchase Date:</label>
                 </div>
-                <input type="text" name="notes" value="{{ post.notes }}"/></p>
+                <div style="width:200px;" role="button" class="input-group date" data-provide="datepicker">
+                    <input type="text" name="date_purchased" class="form-control" value="{{ post.date_purchased.strftime('%m/%d/%Y') }}" %}>
+                    <div class="input-group-addon">
+                        <span  class="glyphicon glyphicon-th"></span>
+                    </div>
+                </div>
             </div>
             <div class="col-md-4">
                 <div>

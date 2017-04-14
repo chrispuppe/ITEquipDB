@@ -45,7 +45,14 @@ class Ipads(Device):
     serial = db.Column(db.String(128))
     model = db.Column(db.String(128))
     storage_capacity = db.Column(db.String(128))
-    date_purchased = db.Column(db.DateTime)
+    date_purchased = db.Column(db.Date)
+
+    def __init__(self, serial, model, storage_capacity, date_purchased, assigned_to):
+        self.serial = serial
+        self.model = model
+        self.storage_capacity = storage_capacity
+        self.date_purchased = date_purchased
+        self.assigned_to = assigned_to
 
 
 class Fob(Device):

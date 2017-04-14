@@ -1,41 +1,51 @@
 {% extends "layout.html" %}
-{% block title %}Add Phone{% endblock %}
+{% block title %}Add iPads{% endblock %}
 {% block head %}
 {{ super() }}
 {% endblock %}
 {% block content %}
-    <form action="/devices/phone_add" method="post">
+    <form action="/devices/ipad_add" method="post">
         <div class="row">
             <div class="col-md-4">
                 <div>
-                    <label>Phone Number:</label>
+                    <label>Serial:</label>
                 </div>
-                <input type="text" name="phone_number"/></p>
-            </div>
-            <div class="col-md-4">
-                <div>
-                    <label>Phone Brand:</label>
-                </div>
-                <select type="text" name="phone_os"></p>
-                    <option value="Android">Android</option>
-                    <option value="Apple">Apple</option>
-                    <option value="Generic">Generic</option>
-                </select>
+                <input type="text" name="serial"/></p>
             </div>
             <div class="col-md-4">
                 <div>
                     <label>Model:</label>
                 </div>
-                <input type="text" name="phone_model"/></p>
+                <select type="text" name="model"></p>
+                    <option value="iPad 2">iPad 2</option>
+                    <option value="iPad Air">iPad Air</option>
+                    <option value="iPad Air 2">iPad Air 2</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <div>
+                    <label>Storage Capacity:</label>
+                </div>
+                <select type="text" name="storage_capacity"></p>
+                    <option value="16 GB">16 GB</option>
+                    <option value="32 GB">32 GB</option>
+                    <option value="64 GB">64 GB</option>
+                    <option value="128 GB">128 GB</option>
+                </select>
             </div>
         </div>
         
         <div class="row">
             <div class="col-md-4">
                 <div>
-                    <label>Notes:</label>
+                    <label>Purchase Date:</label>
                 </div>
-                <input type="text" name="notes"/></p>
+                <div style="width:200px;" role="button" class="input-group date" data-provide="datepicker">
+                    <input type="text" name="date_purchased" class="form-control">
+                    <div class="input-group-addon">
+                        <span  class="glyphicon glyphicon-th"></span>
+                    </div>
+                </div>
             </div>
             <div class="col-md-4">
                 <div>

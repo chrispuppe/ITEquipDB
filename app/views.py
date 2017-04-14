@@ -183,7 +183,8 @@ def employee_report(id):
     return render_template('employee/employee_report.html', employee=employee,
                             assigned_computers=assigned_computers,
                             assigned_phones=assigned_phones,
-                            assigned_fobs=assigned_fobs)
+                            assigned_fobs=assigned_fobs,
+                            assigned_ipads=assigned_ipads)
 
 
 ###################  Devices  ###################
@@ -405,7 +406,7 @@ def fob_delete(id):
 @app.route('/devices/ipads' , methods=['POST', 'GET'])
 @login_required
 def all_ipads():
-    post = models.Phone_Account.query.all()
+    post = models.Ipads.query.all()
     employees = models.Employee.query.all()
     return render_template('/devices/ipads.html', employees=employees, post=post)
 
@@ -417,9 +418,9 @@ def ipad_add():
     employee_list = fresh_employee_list()
     # raise exception
     if request.method == 'POST':
-        post = models.Phone_Account(
-            request.form['phone_number'], request.form['phone_model'], 
-            request.form['phone_os'], request.form['notes'],
+        post = models.Ipads(
+            request.form['serial'], request.form['model'], 
+            request.form['storage_capacity'], string_to_date(request.form['date_purchased']),
             request.form['assigned_to']
             )
         db.session.add(post)
@@ -434,7 +435,7 @@ def ipad_edit(id):
     employee_list = fresh_employee_list()
 
     # Validate url to ensure id exists
-    post = models.Phone_Account.query.get(id)
+    post = models.Ipads.query.get(id)
     if not post:
         flash('Invalid post id: {0}'.format(id))
         return redirect(url_for('index'))
@@ -443,14 +444,14 @@ def ipad_edit(id):
     if request.method == 'POST':
         # raise exception
 
-        post.phone_number = request.form['phone_number']
-        post.phone_model = request.form['phone_model']
-        post.phone_os = request.form['phone_os']
-        post.notes = request.form['notes']
+        post.serial = request.form['serial']
+        post.model = request.form['model']
+        post.storage_capacity = request.form['storage_capacity']
+        post.date_purchased = string_to_date(request.form['date_purchased'])
         post.assigned_to = request.form['assigned_to']
 
         db.session.commit()
-        return redirect(url_for('all_phones'))
+        return redirect(url_for('all_ipads'))
     else:
         return render_template('devices/ipad_edit.html',employee_list=employee_list,
                 post=post)
@@ -459,7 +460,7 @@ def ipad_edit(id):
 @app.route('/devices/ipad_delete/<id>' , methods=['POST', 'GET'])
 @login_required
 def ipad_delete(id):
-    post = models.Phone_Account.query.get(id)
+    post = models.Ipads.query.get(id)
     db.session.delete(post)
     db.session.commit()
     flash ('deleted')
