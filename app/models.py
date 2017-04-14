@@ -122,8 +122,22 @@ class Printers(Device):
     brand = db.Column(db.String(64))
     model = db.Column(db.String(64))
     printer_type = db.Column(db.String(64))
+    serial = db.Column(db.String(64))
     aquired_date = db.Column(db.DateTime)
     vendor_id = db.Column(db.String(64))
+    assigned_to = db.Column(db.Integer, ForeignKey('employee.id'))
+
+    def __init__(
+                self, brand, model, printer_type, serial, 
+                aquired_date, vendor_id, assigned_to):
+
+        self.brand = brand
+        self.model = model
+        self.printer_type = printer_type
+        self.serial = serial
+        self.aquired_date = aquired_date
+        self.vendor_id = vendor_id
+        self.assigned_to = assigned_to
 
 
 class Phone_Account(Device):

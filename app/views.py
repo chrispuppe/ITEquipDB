@@ -175,7 +175,7 @@ def employee_report(id):
 
     assigned_computers = models.Computers.query.all()
     assigned_phones = models.Phone_Account.query.all()
-    assigned_printers = models.Printers.query.all()
+    #assigned_printers = models.Printers.query.all()
     assigned_fobs = models.Fob.query.all()
     assigned_ipads = models.Ipads.query.all()
     # raise exception
@@ -471,7 +471,7 @@ def ipad_delete(id):
 @app.route('/devices/printers' , methods=['POST', 'GET'])
 @login_required
 def all_printers():
-    post = models.Phone_Account.query.all()
+    post = models.Printers.query.all()
     employees = models.Employee.query.all()
     return render_template('/devices/printers.html', employees=employees, post=post)
 
@@ -483,10 +483,11 @@ def printer_add():
     employee_list = fresh_employee_list()
     # raise exception
     if request.method == 'POST':
-        post = models.Phone_Account(
-            request.form['phone_number'], request.form['phone_model'], 
-            request.form['phone_os'], request.form['notes'],
-            request.form['assigned_to']
+        post = models.Printers(
+            request.form['brand'], request.form['model'], 
+            request.form['printer_type'], request.form['serial'],
+            string_to_date(request.form['aquired_date']),
+            request.form['vendor_id'], request.form['assigned_to']
             )
         db.session.add(post)
         db.session.commit()
@@ -500,7 +501,7 @@ def printer_edit(id):
     employee_list = fresh_employee_list()
 
     # Validate url to ensure id exists
-    post = models.Phone_Account.query.get(id)
+    post = models.Printers.query.get(id)
     if not post:
         flash('Invalid post id: {0}'.format(id))
         return redirect(url_for('index'))
@@ -509,10 +510,11 @@ def printer_edit(id):
     if request.method == 'POST':
         # raise exception
 
-        post.phone_number = request.form['phone_number']
-        post.phone_model = request.form['phone_model']
-        post.phone_os = request.form['phone_os']
-        post.notes = request.form['notes']
+        post.brand = request.form['brand']
+        post.model = request.form['model']
+        post.printer_type = request.form['printer_type']
+        post.aquired_date = string_to_date( request.form['aquired_date'])
+        post.vendor_id = request.form['vendor_id']
         post.assigned_to = request.form['assigned_to']
 
         db.session.commit()
@@ -525,9 +527,9 @@ def printer_edit(id):
 @app.route('/devices/printer_delete/<id>' , methods=['POST', 'GET'])
 @login_required
 def printer_delete(id):
-    post = models.Phone_Account.query.get(id)
+    post = models.Printers.query.get(id)
     db.session.delete(post)
     db.session.commit()
     flash ('deleted')
 
-    return redirect(url_for('all_phones'))
+    return redirect(url_for('all_printers'))
