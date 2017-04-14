@@ -55,7 +55,7 @@ class RegisterForm(FlaskForm):
 
 @app.route('/')
 def index():
-    return redirect(url_for('all_computers'))
+    return redirect(url_for('all_employees'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -196,15 +196,15 @@ def all_devices():
     return render_template('/devices/devices.html', employees=employees, post=post)
 
 ###################  Computers  ###################
-@app.route('/computers' , methods=['POST', 'GET'])
+@app.route('/devices/computers' , methods=['POST', 'GET'])
 @login_required
 def all_computers():
     post = models.Computers.query.all()
     employees = models.Employee.query.all()
-    return render_template('/computers/computers.html', employees=employees, post=post)
+    return render_template('/devices/computers.html', employees=employees, post=post)
 
 
-@app.route('/computers/add' , methods=['POST', 'GET'])
+@app.route('/devices/computer_add' , methods=['POST', 'GET'])
 @login_required
 def computer_add():
 
@@ -223,10 +223,10 @@ def computer_add():
 
         db.session.add(post)
         db.session.commit()
-    return render_template('computers/add.html', employee_list=employee_list)
+    return render_template('devices/computer_add.html', employee_list=employee_list)
 
 
-@app.route('/computers/edit/<int:id>' , methods=['POST', 'GET'])
+@app.route('/devices/computer_edit/<int:id>' , methods=['POST', 'GET'])
 @login_required
 def computer_edit(id):
     # new employee list for form
@@ -258,11 +258,11 @@ def computer_edit(id):
         db.session.commit()
         return redirect(url_for('all_computers'))
     else:
-        return render_template('computers/edit.html',employee_list=employee_list,
+        return render_template('devices/computer_edit.html',employee_list=employee_list,
                 post=post)
 
 
-@app.route('/computer/delete/<id>' , methods=['POST', 'GET'])
+@app.route('/devices/computer_delete/<id>' , methods=['POST', 'GET'])
 @login_required
 def delete_computer(id):
     post = models.Computers.query.get(id)
