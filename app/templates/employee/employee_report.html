@@ -67,9 +67,7 @@
                     <tr>
                         <th>FOB Number(s)</th>
                         <th>Serial</th>
-                        <th>User</th>
-                        <th>Trade</th>
-                        <th></th>
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -79,8 +77,6 @@
                     <tr>
                         <td><a href="{{ url_for('fob_edit', id=fob.id) }}">{{ fob.fob_number }}</a></td>
                         <td>{{ fob.fob_serial }}</td>
-                        <td>{{ employee.name }}</td>
-                        <td>{{ employee.trade }}</td>
                     </tr>
                     {% endif %}
 
@@ -96,9 +92,6 @@
                         <th>iPad Serial(s)</th>
                         <th>Model</th>
                         <th>Storage Capacity</th>
-                        <th>User</th>
-                        <th>Trade</th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -109,8 +102,32 @@
                         <td><a href="{{ url_for('ipad_edit', id=ipad.id) }}">{{ ipad.serial }}</a></td>
                         <td>{{ ipad.model }}</td>
                         <td>{{ ipad.storage_capacity }}</td>
-                        <td>{{ employee.name }}</td>
-                        <td>{{ employee.trade }}</td>
+                    {% endif %}
+                    </tr>
+         
+
+    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Printer Serial(s)</th>
+                        <th>Model</th>
+                        <th>Brand</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+    {% for printer in assigned_printers %}
+                    {% if employee.id == printer.assigned_to %}
+                    <tr>
+                        <td><a href="{{ url_for('printer_edit', id=printer.id) }}">{{ printer.serial }}</a></td>
+                        <td>{{ printer.model }}</td>
+                        <td>{{ printer.brand }}</td>
                     {% endif %}
                     </tr>
          

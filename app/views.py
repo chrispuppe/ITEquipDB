@@ -1,8 +1,8 @@
-from flask import render_template, request, flash, redirect, url_for
+from flask import render_template, request, flash, redirect, url_for, session, app
 from app import app, db
 from app import models
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from flask_wtf import FlaskForm 
 from wtforms import StringField, PasswordField, BooleanField
 from wtforms.validators import InputRequired, Email, Length
@@ -26,6 +26,14 @@ def fresh_employee_list():
     return choose_employee
 
 #######################################################################
+#############  Session  #############
+
+@app.before_request
+def make_session_permanent():
+    session.permanent = True
+    app.permanent_session_lifetime = timedelta(days=1)
+
+
 #############  Login  #############
 
 # Login manager setup
@@ -78,8 +86,11 @@ def signup():
     form = RegisterForm()
 
     if form.validate_on_submit():
-        hashed_password = generate_password_hash(form.password.data, method='sha256')
-        new_user = models.User(username=form.username.data, email=form.email.data, password=hashed_password)
+        hashed_password = generate_password_hash(form.password.data, 
+                                                method='sha256')
+        new_user = models.User(username=form.username.data, 
+                                email=form.email.data, 
+                                password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
 
@@ -91,10 +102,10 @@ def signup():
 
     return render_template('signup.html', form=form)
 
-@app.route('/dashboard')
-@login_required
-def dashboard():
-    return render_template('dashboard.html', name=current_user.username)
+# @app.route('/dashboard')
+# @login_required
+# def dashboard():
+#     return render_template('dashboard.html', name=current_user.username)
 
 @app.route('/logout')
 @login_required
@@ -175,7 +186,7 @@ def employee_report(id):
 
     assigned_computers = models.Computers.query.all()
     assigned_phones = models.Phone_Account.query.all()
-    #assigned_printers = models.Printers.query.all()
+    assigned_printers = models.Printers.query.all()
     assigned_fobs = models.Fob.query.all()
     assigned_ipads = models.Ipads.query.all()
     # raise exception
@@ -184,7 +195,8 @@ def employee_report(id):
                             assigned_computers=assigned_computers,
                             assigned_phones=assigned_phones,
                             assigned_fobs=assigned_fobs,
-                            assigned_ipads=assigned_ipads)
+                            assigned_ipads=assigned_ipads,
+                            assigned_printers=assigned_printers)
 
 
 ###################  Devices  ###################
@@ -491,6 +503,8 @@ def printer_add():
             )
         db.session.add(post)
         db.session.commit()
+    else:
+        pass
     return render_template('devices/printer_add.html', employee_list=employee_list)
 
 
@@ -518,13 +532,13 @@ def printer_edit(id):
         post.assigned_to = request.form['assigned_to']
 
         db.session.commit()
-        return redirect(url_for('all_phones'))
+        return redirect(url_for('all_printers'))
     else:
         return render_template('devices/printer_edit.html',employee_list=employee_list,
                 post=post)
 
 
-@app.route('/devices/printer_delete/<id>' , methods=['POST', 'GET'])
+@app.route('/devices/printer_delete/<int:id>' , methods=['POST', 'GET'])
 @login_required
 def printer_delete(id):
     post = models.Printers.query.get(id)

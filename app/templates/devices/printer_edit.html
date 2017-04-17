@@ -4,10 +4,10 @@
 {{ super() }}
 {% endblock %}
 {% block content %}
-    <form action="/devices/phone_edit/{{ post.id }}" method="POST">
+    <form action="/devices/printer_edit/{{ post.id }}" method="POST">
         <div class="row">
             <div class="col-md-4">
-                <a href="{{ url_for('phone_delete', id=post.id) }}">Delete</a>
+                <a href="{{ url_for('printer_delete', id=post.id) }}">Delete</a>
                 <label>ID: {{ post.id }}</label>
                 </p>
             </div>
@@ -15,34 +15,53 @@
         <div class="row">
             <div class="col-md-4">
                 <div>
-                    <label>Phone Number:</label>
+                    <label>Brand:</label>
                 </div>
-                <input type="text" name="phone_number" value="{{ post.phone_number }}"></p>
-            </div>
-            <div class="col-md-4">
-                <div>
-                    <label>Phone Brand:</label>
-                </div>
-                <select type="text" name="phone_os"></p>
-                    <option {% if post.phone_os == "Android"%}{{'selected="selected"' }}{% endif %} value="Android">Android</option>
-                    <option {% if post.phone_os == "Apple"%}{{'selected="selected"' }}{% endif %} value="Apple">Apple</option>
-                    <option {% if post.phone_os == "Generic"%}{{'selected="selected"' }}{% endif %} value="Generic">Generic</option>
-                </select>
+                <input type="text" name="brand" value="{{ post.brand }}"></p>
             </div>
             <div class="col-md-4">
                 <div>
                     <label>Model:</label>
                 </div>
-                <input type="text" name="phone_model" value="{{ post.phone_model }}"/></p>
+                <input type="text" name="model" value="{{ post.model }}"/></p>
+            </div>
+            <div class="col-md-4">
+                <div>
+                    <label>Printer Type:</label>
+                </div>
+                <select type="text" name="printer_type"></p>
+                    <option {% if post.printer_type == "Ink"%}{{'selected="selected"' }}{% endif %} value="Ink">Ink</option>
+                    <option {% if post.printer_type == "Toner"%}{{'selected="selected"' }}{% endif %} value="Toner">Toner</option>
+                    <option {% if post.printer_type == "Other"%}{{'selected="selected"' }}{% endif %} value="Other">Other</option>
+                </select>
             </div>
         </div>
         <div class="row">
             <div class="col-md-4">
                 <div>
-                    <label>Notes:</label>
+                    <label>Serial:</label>
                 </div>
-                <input type="text" name="notes" value="{{ post.notes }}"/></p>
+                <input type="text" name="serial" value="{{ post.serial }}"/></p>
             </div>
+            <div class="col-md-4">
+                <div>
+                    <label>Purchase Date:</label>
+                </div>
+                <div style="width:200px;" role="button" class="input-group date" data-provide="datepicker">
+                    <input type="text" name="aquired_date" class="form-control" value="{{ post.aquired_date.strftime('%m/%d/%Y') }}" %}>
+                    <div class="input-group-addon">
+                        <span  class="glyphicon glyphicon-th"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div>
+                    <label>Vendor:</label>
+                </div>
+                <input type="text" name="vendor_id" value="{{ post.vendor_id }}"/></p>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-md-4">
                 <div>
                     <label>Assigned To:</label>
