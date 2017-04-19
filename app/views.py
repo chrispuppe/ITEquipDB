@@ -28,6 +28,7 @@ def fresh_employee_list():
 #######################################################################
 #############  Session  #############
 
+# makes the session expire in 1 day instead of when you close the browser
 @app.before_request
 def make_session_permanent():
     session.permanent = True
@@ -36,11 +37,12 @@ def make_session_permanent():
 
 #############  Login  #############
 
-# Login manager setup
+# Login manager setup using flask_login
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
+# gets the user from the database
 @login_manager.user_loader
 def load_user(user_id):
     return models.User.query.get(int(user_id))
@@ -69,6 +71,7 @@ def index():
 def login():
     form = LoginForm()
 
+    # checks the username and password against the DB and logs the user in if valid
     if form.validate_on_submit():
         user = models.User.query.filter_by(username=form.username.data).first()
         if user:
@@ -76,11 +79,14 @@ def login():
                 login_user(user, remember=form.remember.data)
                 return redirect(url_for('all_employees'))
 
+        # if not valid replies as such
         return '<h1>Invalid username or password</h1>'
         
 
     return render_template('login.html', form=form)
 
+# signs up a user to be able to use the site
+# needs security to restrict users
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     form = RegisterForm()
@@ -101,7 +107,7 @@ def signup():
         
 
     return render_template('signup.html', form=form)
-
+# future dashboard that will be the home page for users
 # @app.route('/dashboard')
 # @login_required
 # def dashboard():
@@ -126,6 +132,7 @@ def all_employees():
 @app.route('/employee/add' , methods=['POST', 'GET'])
 @login_required
 def employee_add():
+    # gathers POSTed info and creates an employee
     if request.method == 'POST':
         post = models.Employee(
             request.form['name_form'], request.form['skill_level_form'], 
@@ -183,7 +190,7 @@ def employee_report(id):
     if not employee:
         flash('Invalid employee id: {0}'.format(id))
         return redirect(url_for('index'))
-
+    # get device tables to get all user assigned items
     assigned_computers = models.Computers.query.all()
     assigned_phones = models.Phone_Account.query.all()
     assigned_printers = models.Printers.query.all()
@@ -220,6 +227,7 @@ def all_computers():
 @login_required
 def computer_add():
 
+    # gathers POSTed info and creates a computer
     employee_list = fresh_employee_list()
     # raise exception
     if request.method == 'POST':
@@ -298,6 +306,7 @@ def all_phones():
 @login_required
 def phone_add():
 
+    # gathers POSTed info and creates a phone
     employee_list = fresh_employee_list()
     # raise exception
     if request.method == 'POST':
@@ -364,6 +373,7 @@ def all_fobs():
 @login_required
 def fob_add():
 
+    # gathers POSTed info and creates a fob
     employee_list = fresh_employee_list()
     # raise exception
     if request.method == 'POST':
@@ -427,6 +437,7 @@ def all_ipads():
 @login_required
 def ipad_add():
 
+    # gathers POSTed info and creates a iPad
     employee_list = fresh_employee_list()
     # raise exception
     if request.method == 'POST':
@@ -492,6 +503,7 @@ def all_printers():
 @login_required
 def printer_add():
 
+    # gathers POSTed info and creates a printer
     employee_list = fresh_employee_list()
     # raise exception
     if request.method == 'POST':
