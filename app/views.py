@@ -163,6 +163,10 @@ def edit_employee(id):
         post.skill_level = request.form['skill_level_form']
         post.email_address = request.form['email_address_form']
         post.trade = request.form['trade_form']
+        if 'inactive' in request.form:
+            post.inactive = True
+        else:
+            post.inactive = False
         db.session.commit()
         return redirect(url_for('index'))
     else:

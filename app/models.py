@@ -19,6 +19,7 @@ class Employee(db.Model):
     skill_level = db.Column(db.Integer)
     email_address = db.Column(db.String(128))
     trade = db.Column(db.String(128))
+    inactive = db.Column(db.BOOLEAN(), default=False, nullable=False)
 
     def __init__(self, name, skill_level, email_address, trade):
     	self.name = name

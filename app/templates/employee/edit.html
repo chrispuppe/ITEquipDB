@@ -27,14 +27,11 @@
 					{{ post.create_ts }}</p>
 				
 				</div>
-			
-			
 				<div class="col-md-4">
 					<div>
 						<label>Skill Level:</label>
 					</div>
 						<input type="number" name="skill_level_form" value="{{ post.skill_level }}"></p>
-					
 				</div>
 			</div>
 			<div class="row">
@@ -59,6 +56,12 @@
 						<option {% if post.trade == "Shop"%}{{'selected="selected"' }}{% endif %}value="Shop">Shop</option>
 						<option {% if post.trade == "Service"%}{{'selected="selected"' }}{% endif %}value="Service">Service</option>
 					</select></p>
+				</div>
+				<div class="col-md-4">
+					<div>
+						<label>Inactive:</label>
+					</div>
+					<input type="checkbox" name="inactive" value="inactive" {% if post.inactive == 1%}{{'checked="checked"' }}{% endif %}>
 				</div>
 			</div>
 			<div class="row">
