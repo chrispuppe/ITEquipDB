@@ -7,6 +7,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField
 from wtforms.validators import InputRequired, Email, Length
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy.sql import exists
 
 
 # validation and str to date for input
@@ -176,8 +177,30 @@ def edit_employee(id):
 @app.route('/employee/delete/<id>' , methods=['POST', 'GET'])
 @login_required
 def delete_employee(id):
-    post = models.Employee.query.get(id)
-    db.session.delete(post)
+    employee = models.Employee.query.get(id)
+    if not employee:
+        flash('Invalid employee id: {0}'.format(id))
+        return redirect(url_for('index'))
+
+    #
+    device_list = db.session.query(exists().where(models.Device.assigned_to==id))
+    # Redirects to employee report if the employee has devices assigned to them
+    if device_list.scalar() == True:
+        assigned_computers = models.Computers.query.all()
+        assigned_phones = models.Phone_Account.query.all()
+        assigned_printers = models.Printers.query.all()
+        assigned_fobs = models.Fob.query.all()
+        assigned_ipads = models.Ipads.query.all()
+        # raise exception
+        
+        return render_template('employee/employee_report.html', employee=employee,
+                                assigned_computers=assigned_computers,
+                                assigned_phones=assigned_phones,
+                                assigned_fobs=assigned_fobs,
+                                assigned_ipads=assigned_ipads,
+                                assigned_printers=assigned_printers)
+
+    db.session.delete(employee)
     db.session.commit()
     flash ('deleted')
 
