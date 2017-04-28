@@ -182,7 +182,6 @@ def delete_employee(id):
         flash('Invalid employee id: {0}'.format(id))
         return redirect(url_for('index'))
 
-    #
     device_list = db.session.query(exists().where(models.Device.assigned_to==id))
     # Redirects to employee report if the employee has devices assigned to them
     if device_list.scalar() == True:
@@ -234,13 +233,13 @@ def employee_report(id):
 
 
 ###################  Devices  ###################
-@app.route('/devices' , methods=['POST', 'GET'])
-@login_required
-def all_devices():
-    post = models.Device.query.all()
-    employees = models.Employee.query.all()
-    return render_template('/devices/devices.html', employees=employees, post=post)
-
+# @app.route('/devices' , methods=['POST', 'GET'])
+# @login_required
+# def all_devices():
+#     post = models.Device.query.all()
+#     employees = models.Employee.query.all()
+#     return render_template('/devices/devices.html', employees=employees, post=post)
+#
 ###################  Computers  ###################
 @app.route('/devices/computers' , methods=['POST', 'GET'])
 @login_required
