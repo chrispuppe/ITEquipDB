@@ -8,7 +8,7 @@ from wtforms import StringField, PasswordField, BooleanField
 from wtforms.validators import InputRequired, Email, Length
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.sql import exists
-# import pdfkit
+import pdfkit
 
 
 # validation and str to date for input
@@ -235,36 +235,38 @@ def employee_report(id):
 
 ###################  Employee PDF Report  ###################
 
-# @app.route('/report/pdf/<int:id>' , methods=['POST', 'GET'])
-# @login_required
-# def employee_report_pdf(id):
-#     #Getting user by primary key:
-#     # Validate url to ensure id exists
-#     employee = models.Employee.query.get(id)
-#     if not employee:
-#         flash('Invalid employee id: {0}'.format(id))
-#         return redirect(url_for('index'))
-#     # get device tables to get all user assigned items
-#     assigned_computers = models.Computers.query.all()
-#     assigned_phones = models.Phone_Account.query.all()
-#     assigned_printers = models.Printers.query.all()
-#     assigned_fobs = models.Fob.query.all()
-#     assigned_ipads = models.Ipads.query.all()
-#     # raise exception
+@app.route('/report/pdf/<int:id>' , methods=['POST', 'GET'])
+@login_required
+def employee_report_pdf(id):
+    #Getting user by primary key:
+    # Validate url to ensure id exists
+    employee = models.Employee.query.get(id)
+    if not employee:
+        flash('Invalid employee id: {0}'.format(id))
+        return redirect(url_for('index'))
+    # get device tables to get all user assigned items
+    assigned_computers = models.Computers.query.all()
+    assigned_phones = models.Phone_Account.query.all()
+    assigned_printers = models.Printers.query.all()
+    assigned_fobs = models.Fob.query.all()
+    assigned_ipads = models.Ipads.query.all()
+    # raise exception
     
-#     rendered_report = render_template('reports/pdf_employee_report.html', employee=employee,
-#                             assigned_computers=assigned_computers,
-#                             assigned_phones=assigned_phones,
-#                             assigned_fobs=assigned_fobs,
-#                             assigned_ipads=assigned_ipads,
-#                             assigned_printers=assigned_printers)
+    rendered_report = render_template('reports/pdf_employee_report.html', employee=employee,
+                            assigned_computers=assigned_computers,
+                            assigned_phones=assigned_phones,
+                            assigned_fobs=assigned_fobs,
+                            assigned_ipads=assigned_ipads,
+                            assigned_printers=assigned_printers)
 
-#     css = ['']
-#     pdf_report = pdfkit.from_string(rendered_report, False, css=css)
+    css = ['app/static/css/bootstrap.css']
+    pdf_report = pdfkit.from_string(rendered_report, False, css=css)
 
-#     response = make_response(pdf_report)
-#     response.headers['Content-type'] = 'application/pdf'
-#     response.headers['Content-Disposition'] = 'attachment; {}.pdf'.format(employee.name)
+    pdf_response = make_response(pdf_report)
+    pdf_response.headers['Content-type'] = 'application/pdf'
+    pdf_response.headers['Content-Disposition'] = 'attachment; {}.pdf'.format(employee.name)
+
+    return pdf_response
 
 ###################  Devices  ###################
 # @app.route('/devices' , methods=['POST', 'GET'])
