@@ -31,7 +31,7 @@
     {% for computer in assigned_computers %}
                     {% if employee.id == computer.assigned_to %}
                     <tr>
-                        <td><a href="{{ url_for('computer_edit', id=computer.id) }}">{{ computer.computer_name }}</a></td>
+                        <td>{{ computer.computer_name }}</td>
                         <td>{{ computer.computer_type }}</td>
                         <td>{{ computer.brand }}</td>
                         <td>{{ computer.model }}</td>
@@ -59,7 +59,7 @@
     {% for phone in assigned_phones %}
                     {% if employee.id == phone.assigned_to %}
                     <tr>
-                        <td><a href="{{ url_for('phone_edit', id=phone.id) }}">{{ phone.phone_number }}</a></td>
+                        <td>{{ phone.phone_number }}</td>
                         <td>{{ phone.phone_os }}</td>
                         <td>{{ phone.phone_model }}</td>
                     </tr>
@@ -83,7 +83,7 @@
     {% for fob in assigned_fobs %}
                     {% if employee.id == fob.assigned_to %}
                     <tr>
-                        <td><a href="{{ url_for('fob_edit', id=fob.id) }}">{{ fob.fob_number }}</a></td>
+                        <td>{{ fob.fob_number }}</td>
                         <td>{{ fob.fob_serial }}</td>
                     </tr>
                     {% endif %}
@@ -107,7 +107,7 @@
     {% for ipad in assigned_ipads %}
                     {% if employee.id == ipad.assigned_to %}
                     <tr>
-                        <td><a href="{{ url_for('ipad_edit', id=ipad.id) }}">{{ ipad.serial }}</a></td>
+                        <td>{{ ipad.serial }}</td>
                         <td>{{ ipad.model }}</td>
                         <td>{{ ipad.storage_capacity }}</td>
                     {% endif %}
@@ -133,7 +133,7 @@
     {% for printer in assigned_printers %}
                     {% if employee.id == printer.assigned_to %}
                     <tr>
-                        <td><a href="{{ url_for('printer_edit', id=printer.id) }}">{{ printer.serial }}</a></td>
+                        <td>{{ printer.serial }}</td>
                         <td>{{ printer.model }}</td>
                         <td>{{ printer.brand }}</td>
                     {% endif %}
