@@ -72,6 +72,7 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
+    error = None
 
     # checks the username and password against the DB and logs the user in if valid
     if form.validate_on_submit():
@@ -80,9 +81,11 @@ def login():
             if check_password_hash(user.password, form.password.data):
                 login_user(user, remember=form.remember.data)
                 return redirect(url_for('all_employees'))
+            else:
+                error = "Invalid username or password. Please try again."
 
         # if not valid replies as such
-        return '<h1>Invalid username or password</h1>'
+        return render_template('login.html', form=form, error=error)
         
 
     return render_template('login.html', form=form)
@@ -115,14 +118,55 @@ def signup():
 # def dashboard():
 #     return render_template('dashboard.html', name=current_user.username)
 
+###################  User Administration  ###################
+
+@app.route('/admin', methods=['GET', 'POST'])
+@login_required
+def user_admin():
+    users = models.User.query.all()
+    
+    return render_template('/user_admin.html', users=users)
+
+#############################################################
+###################  User Add  ###################
+
+@app.route('/add_user', methods=['GET', 'POST'])
+@login_required
+def user_add():
+    users = models.User.query.all()
+    
+    return render_template('/user_admin.html', users=users)
+
+###################################################
+###################  User Edit  ###################
+
+@app.route('/edit_user/<int:id>', methods=['GET', 'POST'])
+@login_required
+def user_edit(id):
+    users = models.User.query.all()
+    
+    return render_template('/user_admin.html', users=users)
+
+###################################################
+###################  User Delete  ###################
+
+@app.route('/delete_user/<int:id>', methods=['GET', 'POST'])
+@login_required
+def user_delete(id):
+    users = models.User.query.all()
+    
+    return render_template('/user_admin.html', users=users)
+
+#############################################################
+###################  Logout  ###################
+
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('index'))
 
-#######################################################################
-
+################################################
 #############  Employees  #############
 @app.route('/employee' )
 @login_required
@@ -183,6 +227,8 @@ def delete_employee(id):
         flash('Invalid employee id: {0}'.format(id))
         return redirect(url_for('index'))
 
+    error = None
+
     device_list = db.session.query(exists().where(models.Device.assigned_to==id))
     # Redirects to employee report if the employee has devices assigned to them
     if device_list.scalar() == True:
@@ -191,14 +237,15 @@ def delete_employee(id):
         assigned_printers = models.Printers.query.all()
         assigned_fobs = models.Fob.query.all()
         assigned_ipads = models.Ipads.query.all()
-        # raise exception
+        error = "The current user still has devices assigned."
         
         return render_template('employee/employee_report.html', employee=employee,
                                 assigned_computers=assigned_computers,
                                 assigned_phones=assigned_phones,
                                 assigned_fobs=assigned_fobs,
                                 assigned_ipads=assigned_ipads,
-                                assigned_printers=assigned_printers)
+                                assigned_printers=assigned_printers,
+                                error=error)
 
     db.session.delete(employee)
     db.session.commit()
