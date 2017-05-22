@@ -133,9 +133,24 @@ def user_admin():
 @app.route('/add_user', methods=['GET', 'POST'])
 @login_required
 def user_add():
-    users = models.User.query.all()
-    
-    return render_template('/user_admin.html', users=users)
+    form = RegisterForm()
+
+    if form.validate_on_submit():
+        hashed_password = generate_password_hash(form.password.data, 
+                                                method='sha256')
+        new_user = models.User(username=form.username.data, 
+                                email=form.email.data, 
+                                password=hashed_password)
+        db.session.add(new_user)
+        db.session.commit()
+
+        return redirect(url_for('user_admin'))
+
+    else:
+        pass
+        
+
+    return render_template('user_add.html', form=form)
 
 ###################################################
 ###################  User Edit  ###################
@@ -153,9 +168,13 @@ def user_edit(id):
 @app.route('/delete_user/<int:id>', methods=['GET', 'POST'])
 @login_required
 def user_delete(id):
-    users = models.User.query.all()
+    user = models.User.query.get(id)
+    db.session.delete(user)
+    db.session.commit()
+    flash ('deleted')
     
-    return render_template('/user_admin.html', users=users)
+    return redirect(url_for('user_admin'))
+
 
 #############################################################
 ###################  Logout  ###################
