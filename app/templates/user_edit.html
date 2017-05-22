@@ -1,59 +1,22 @@
 {% extends "layout.html" %}
-{% block title %}Edit Computer{% endblock %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Edit {{ user.username }}{% endblock %}
 {% block head %}
 {{ super() }}
 {% endblock %}
+
+
 {% block content %}
-    <form action="/devices/fob_edit/{{ post.id }}" method="POST">
-        <div class="row">
-            <div class="col-md-4">
-                <a href="{{ url_for('fob_delete', id=post.id) }}">Delete</a>
-                <label>ID: {{ post.id }}</label>
-                </p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div>
-                    <label>FOB Number:</label>
-                </div>
-                <input type="text" name="fob_number" value="{{ post.fob_number }}"></p>
-            </div>
-            
-            <div class="col-md-4">
-                <div>
-                    <label>Serial Number:</label>
-                </div>
-                <input type="text" name="fob_serial" value="{{ post.fob_serial }}"/></p>
-            </div>
-        
-            <div class="col-md-4">
-                <div>
-                    <label>Assigned To:</label>
-                </div>
-                <select type="text" name="assigned_to"></p>
+<div class="container">
 
-                {% for employee in employee_list %}
+  <form class="form-signin" method="POST" action="/edit_user/{{ user.id }}">
+    <h2 class="form-signin-heading">Edit User</h2>
+    {{ form.hidden_tag() }}
+    {{ wtf.form_field(form.username) }}
+    {{ wtf.form_field(form.email) }}
+    {{ wtf.form_field(form.password) }}
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Edit User</button>
+  </form>
 
-                    <option {% if employee.id == post.assigned_to %}{{'selected="selected"' }}{% endif %} value="{{ employee.id }}">{{ employee.name }}</option>
-
-                {% endfor %}
-
-                </select>
-            </div>
-        </div>
-        </p><button class="button postfix" type="submit">Finish</button>
-    </form>
-{% endblock %}
-{% block footer %}
-<script src="/static/js/jquery-3.1.1.js"></script>
-<script src="/static/js/bootstrap.min.js"></script>
-<script src="/static/js/bootstrap-datepicker.js"></script>
-<script>
-    $('.input-group.date').datepicker({
-        format: "mm/dd/yyyy",
-        autoclose: true,
-        todayHighlight: true
-    });
-</script>
+</div> <!-- /container -->
 {% endblock %}

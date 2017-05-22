@@ -158,9 +158,26 @@ def user_add():
 @app.route('/edit_user/<int:id>', methods=['GET', 'POST'])
 @login_required
 def user_edit(id):
-    users = models.User.query.all()
-    
-    return render_template('/user_admin.html', users=users)
+    user = models.User.query.get(id)
+
+    form = RegisterForm(obj=user)
+
+    if form.validate_on_submit():
+        hashed_password = generate_password_hash(form.password.data, 
+                                                method='sha256')
+        
+        user.username=form.username.data
+        user.email=form.email.data, 
+        user.password=hashed_password
+        db.session.commit()
+
+        return redirect(url_for('user_admin'))
+
+    else:
+        pass
+        
+
+    return render_template('user_edit.html', form=form, user=user)
 
 ###################################################
 ###################  User Delete  ###################
