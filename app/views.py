@@ -162,12 +162,39 @@ def user_edit(id):
 
     form = RegisterForm(obj=user)
 
+    # if form.validate_on_submit():
+    #     hashed_password = generate_password_hash(form.password.data, 
+    #                                             method='sha256')
+    if request.method == 'POST':
+        user.username=form.username.data
+        user.email=form.email.data, 
+        # user.password=hashed_password
+        db.session.commit()
+
+        return redirect(url_for('user_admin'))
+
+    # else:
+    #     pass
+        
+
+    return render_template('user_edit.html', form=form, user=user)
+
+###################################################
+###################  User Password Edit  ###################
+
+@app.route('/edit_user_password/<int:id>', methods=['GET', 'POST'])
+@login_required
+def user_edit_password(id):
+    user = models.User.query.get(id)
+
+    form = RegisterForm(obj=user)
+
     if form.validate_on_submit():
         hashed_password = generate_password_hash(form.password.data, 
                                                 method='sha256')
-        
-        user.username=form.username.data
-        user.email=form.email.data, 
+    # if request.method == 'POST':
+    #     user.username=form.username.data
+    #     user.email=form.email.data, 
         user.password=hashed_password
         db.session.commit()
 
@@ -177,7 +204,7 @@ def user_edit(id):
         pass
         
 
-    return render_template('user_edit.html', form=form, user=user)
+    return render_template('user_edit_password.html', form=form, user=user)
 
 ###################################################
 ###################  User Delete  ###################
