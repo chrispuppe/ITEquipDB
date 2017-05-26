@@ -5,7 +5,7 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 from datetime import datetime, date, timedelta
 from flask_wtf import FlaskForm 
 from wtforms import StringField, PasswordField, BooleanField
-from wtforms.validators import InputRequired, Email, Length
+from wtforms.validators import InputRequired, Email, Length, EqualTo
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.sql import exists
 import pdfkit
@@ -62,7 +62,8 @@ class RegisterForm(FlaskForm):
     username = StringField('Username', validators=[InputRequired(), 
                 Length(min=4, max=15)], render_kw={"placeholder": "Username", "autofocus": ""})
     password = PasswordField('Password', validators=[InputRequired(), 
-                Length(min=8, max=80)], render_kw={"placeholder": "Password"})
+                Length(min=8, max=80), EqualTo('confirm', message='Passwords must match')], render_kw={"placeholder": "Password"})
+    confirm = PasswordField('Repeat Password', render_kw={"placeholder": "Repeat Password"})
 
 
 @app.route('/')
