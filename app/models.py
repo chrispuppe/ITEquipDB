@@ -33,7 +33,7 @@ class Employee(db.Model):
 class Device(db.Model):
     __tablename__ = 'device'
     id = db.Column(db.Integer, primary_key=True)
-    assigned_to = db.Column(db.Integer, ForeignKey('employee.id'))
+    #assigned_to = db.Column(db.Integer, ForeignKey('employee.id'))
     
     __maper_args__ = {'polymorphic_identity':'device'}
     
@@ -63,7 +63,7 @@ class Fob(Device):
     id = db.Column(db.Integer, ForeignKey('device.id'), primary_key=True)
     fob_number = db.Column(db.Integer)
     fob_serial = db.Column(db.String(64))
-    assigned_to = db.Column(db.Integer, ForeignKey('employee.id'))
+    assigned_to = db.Column(db.Integer, ForeignKey('employee.id'), nullable=True)
 
     def __init__(self, fob_number, fob_serial, assigned_to):
         self.fob_number = fob_number
